@@ -1,0 +1,9 @@
+
+Apuntes
+
+1. Agente reactivo
+2. Agente puramente reactivo (sin memoria)
+
+División de tareas:
+
+- 
