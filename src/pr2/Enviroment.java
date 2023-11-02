@@ -20,7 +20,23 @@ public class Enviroment {
     
     // Update agent position 
     public void doMoveAction(String action){
-        
+        switch (action) { 
+            case "moveUp":
+                agentPositionY = agentPositionY - 1;
+                break;
+            
+            case "moveDown":
+                agentPositionY = agentPositionY + 1;
+                break;
+                
+            case "moveLeft":
+                agentPositionX = agentPositionX - 1;
+                break;
+                
+            case "moveRight":
+                agentPositionX = agentPositionX + 1;
+                break;
+          }
     }
     
     // Update sensors
@@ -38,6 +54,20 @@ public class Enviroment {
     
     public void setMap(MapDto map){
         
+    }
+    
+    public String calculateUtility(){
+        
+        return "action";
+    }
+    
+    // Function that returns true if the agent is in the goal position
+    public boolean checkGoal(){
+        boolean agentIsInGoalPos = false;
+        if(agentPositionX == goalPositionX && agentPositionY == goalPositionY){
+            agentIsInGoalPos = true;
+        }
+        return agentIsInGoalPos;
     }
 }
 

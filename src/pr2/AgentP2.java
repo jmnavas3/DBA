@@ -21,12 +21,14 @@ public abstract class AgentP2 extends Agent {
         Enviroment env = new Enviroment();
         env.setAgentPosition(9,9);
         env.setGoalPosition(0,0);
+        sharedDataStore.put("enviroment", env);
         
-
+        // Behaviour that moves the agent
+        Behaviour behavMoveAgent = new BehavMoveAgent();
+        behavMoveAgent.setDataStore(sharedDataStore);
+        addBehaviour(behavMoveAgent);
 
     }
 
-    public void calculateUtility(Enviroment env){
-        
-    }
+
 }
