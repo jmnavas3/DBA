@@ -6,6 +6,7 @@ package pr2;
 
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
+import jade.core.behaviours.OneShotBehaviour;
 
 /**
  *
@@ -19,16 +20,17 @@ public class BehavMoveAgent extends Behaviour{
         
         Enviroment env = (Enviroment) ds.get("enviroment");
         
-        String nextAction = env.calculateUtility();
+        String nextAction = env.getUtility();
         
         env.doMoveAction(nextAction);
+        env.showPath();
         
         ds.put("enviroment", env);
         
         this.setDataStore(ds);
     }
     
-    @Override
+   @Override
     public boolean done() {
         // Return true when the agents moves to the goal.
         DataStore ds = this.getDataStore();
