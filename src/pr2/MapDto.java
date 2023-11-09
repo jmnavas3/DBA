@@ -14,8 +14,8 @@ import java.util.Scanner;
  */
 public class MapDto {
     private final String name;
-    private final int rows, columns;
-    private final int[][] myMap;
+    public final int rows, columns;
+    public final int[][] myMap;
     
     private MapDto(String name, int[][] map) {
         this.name = name;
@@ -26,8 +26,6 @@ public class MapDto {
     
     public static MapDto generate(String map) throws Exception {
         int[][] data;
-        String line;
-        String[] tab;
         int row = 0;
         File mapFile = new File(map);
 

@@ -4,10 +4,39 @@
  */
 package pr2;
 
+import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.DataStore;
+import jade.core.behaviours.OneShotBehaviour;
+
 /**
  *
  * @author galvez
  */
-public class BehavMoveAgent {
+public class BehavMoveAgent extends Behaviour{
     
+    @Override
+    public void action() {
+        DataStore ds = this.getDataStore();
+        
+        Enviroment env = (Enviroment) ds.get("enviroment");
+        
+        String nextAction = env.getUtility();
+        
+        env.doMoveAction(nextAction);
+        env.showPath();
+        
+        ds.put("enviroment", env);
+        
+        this.setDataStore(ds);
+    }
+    
+   @Override
+    public boolean done() {
+        // Return true when the agents moves to the goal.
+        DataStore ds = this.getDataStore();
+        
+        Enviroment env = (Enviroment) ds.get("enviroment");
+        
+        return env.checkGoal();
+    }
 }
