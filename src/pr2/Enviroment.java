@@ -11,13 +11,16 @@ package pr2;
 public class Enviroment {
     public MapDto map;
     public int[][] mapPrint;
-    private int goalPositionX, goalPositionY;
+    private int goalPositionX, goalPositionY;       
     private int agentPositionX, agentPositionY;
     private int[][] sensors;
     
+    public String accion = "moveLeft"; /* variable provisional para pasar mov a BehavMoveAgent por temas de que se ejecute primero*/
+                                       /* Unicamente coge esta, no pasa por el behaviour de utilidad */
     public Enviroment(){
         this.sensors = new int[3][3];
-        this.map = this.setMap("C:\\Users\\jmnavas\\Documents\\NetBeansProjects\\Pr1-HelloWorld\\config\\mapWithoutObstacle.txt");
+      /*this.map = this.setMap("C:\\Users\\jmnavas\\Documents\\NetBeansProjects\\Pr1-HelloWorld\\config\\mapWithoutObstacle.txt");*/
+        this.map = this.setMap("C:\\Users\\joy111\\OneDrive\\Actual\\DBA\\Practicas\\Practica2\\mapWithVerticalWall.txt");
         this.mapPrint = this.map.myMap;
     }
     
@@ -50,7 +53,7 @@ public class Enviroment {
     
     public String printMap() {
         String mapString = "\n";
-        for (int i = 0; i < this.mapPrint.length; i++) {
+        for(int i = 0; i < this.mapPrint.length; i++) {
             for (int j = 0; j < this.mapPrint.length; j++) {
                 if (this.mapPrint[i][j] == 8) mapString += 'X' + "\t";
                 else mapString += Integer.toString(this.mapPrint[i][j]) + "\t";
@@ -82,6 +85,7 @@ public class Enviroment {
         }
     }
     
+    
     public void setAgentPosition(int x, int y){
         this.agentPositionX = x;
         this.agentPositionY = y;
@@ -92,6 +96,25 @@ public class Enviroment {
         this.goalPositionY = y;
         
     }
+    
+    public int getGoalPositionX(){
+    
+        return this.goalPositionX;
+    }
+    
+    public int getGoalPositionY(){
+    
+        return this.goalPositionY;
+    }
+    
+    public int getAgentPositionX(){
+    
+        return this.agentPositionX;
+    }
+    public int getAgentPositionY(){
+    
+        return this.agentPositionY;
+    }    
     
     public MapDto setMap(String map){
         MapDto result;
@@ -109,6 +132,7 @@ public class Enviroment {
     10, 11, 12
     20, 21, 22
     */
+    /*
     public String calculateUtility(){
         String action = "idle";
         double next, best=1000;
@@ -135,6 +159,18 @@ public class Enviroment {
         
         
         return action;
+    }
+*/
+    
+    public String setUtility(String move){
+        accion = move;
+        
+        return accion;
+    }
+    
+    public String getUtility(){
+        
+        return accion;
     }
     
     public double distance (int x1, int y1) {
