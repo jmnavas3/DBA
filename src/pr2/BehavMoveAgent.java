@@ -20,7 +20,7 @@ public class BehavMoveAgent extends Behaviour{
         
         Enviroment env = (Enviroment) ds.get("enviroment");
         
-        String nextAction = env.getUtility();
+        String nextAction = env.getAction();
         
         env.doMoveAction(nextAction);
         env.showPath();

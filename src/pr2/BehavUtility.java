@@ -6,6 +6,7 @@ package pr2;
 
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
+import java.util.Iterator;
 import jade.core.Agent;
 
 /**
@@ -23,27 +24,51 @@ public class BehavUtility extends Behaviour{
         String action = "nothing";
         
         int goalX, goalY, agentX, agentY;
+        int pared = 10000;
         
         goalX = env.getGoalPositionX();
+        
+      //  System.out.println("posicion X objetivo: " + env.getGoalPositionX());
         goalY = env.getGoalPositionY();
+        
+     //   System.out.println("posicion Y objetivo: " + env.getGoalPositionY());
+        
         agentX = env.getAgentPositionX();
+     //   System.out.println("posicion X agente: " + env.getAgentPositionX());
+        
         agentY = env.getAgentPositionY();
+     //   System.out.println("posicion Y agente: " + env.getAgentPositionY());
+        
+        int[][] sensors = env.getSensors();
+        int valorUtilidad;
+        
+        for(int i=-1; i < sensors.length-1; i++){          
+            for(int j=-1; j < sensors.length-1; j++){               
+                if(sensors[i+1][j+1] == -1){
+                    env.setUtility(pared, agentX+i, agentY+j);
+                }
+                else{
+                    env.setUtility(env.distance(agentX+i, agentY+j),agentX+i, agentY+j);
+                }
+            }
+                
+        }
         
         /* Agente basico */
-        if(agentX > goalX){
-            action = "moveLeft";
-        }
-        else if(agentX < goalX){
-            action = "moveRight";
-        }
-        else if(agentY > goalY){
+        if(agentX > goalX && sensors[0][1] != -1){
             action = "moveUp";
         }
-        else{
+        else if(agentX < goalX && sensors[2][1] != -1){
             action = "moveDown";
         }
+        else if(agentY > goalY && sensors[1][0] != -1){
+            action = "moveLeft";
+        }
+        else if (agentY < goalY && sensors[1][2] != -1){
+            action = "moveRight";
+        }
         
-        env.setUtility(action);  
+        env.setAction(action);  
         
         ds.put("enviroment", env);
         

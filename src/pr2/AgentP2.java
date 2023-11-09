@@ -39,7 +39,9 @@ public class AgentP2 extends Agent {
         behavSee.setDataStore(sharedDataStore);
         
         addBehaviour(behavSee);
+        addBehaviour(behavUtility);
         addBehaviour(behavMoveAgent);
+
 
     }
 
