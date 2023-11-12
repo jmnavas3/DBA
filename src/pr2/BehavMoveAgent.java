@@ -23,7 +23,7 @@ public class BehavMoveAgent extends Behaviour{
         String nextAction = env.getAction();
         
         env.doMoveAction(nextAction);
-        env.showPath();
+        env.showMapStatus();
         
         ds.put("enviroment", env);
         
@@ -37,6 +37,11 @@ public class BehavMoveAgent extends Behaviour{
         
         Enviroment env = (Enviroment) ds.get("enviroment");
         
-        return env.checkGoal();
+        boolean goalReached = env.checkGoal();
+        
+        if (goalReached)
+            System.out.print("The agent has reached the goal");
+        
+        return goalReached;
     }
 }

@@ -22,6 +22,7 @@ public class Enviroment {
         this.sensors = new int[3][3];
       /*this.map = this.setMap("C:\\Users\\jmnavas\\Documents\\NetBeansProjects\\Pr1-HelloWorld\\config\\mapWithoutObstacle.txt");*/
         this.map = this.setMap("C:\\Users\\joy111\\OneDrive\\Actual\\DBA\\Practicas\\Practica2\\mapWithVerticalWall.txt");
+      /*this.map = this.setMap("/home/galvez/Universidad/DBA/Pr1-maps/mapWithoutObstacle.txt");*/
         this.utility = new double [this.map.rows][this.map.columns];
         this.mapPrint = this.map.myMap;
     }
@@ -54,6 +55,7 @@ public class Enviroment {
         System.out.print(this.printMap());
     }
     
+    // Prints an X in all the positions the agent has been
     public String printMap() {
         String mapString = "\n";
         for(int i = 0; i < this.mapPrint.length; i++) {
@@ -65,6 +67,26 @@ public class Enviroment {
         }
 
         return mapString;
+    }
+    
+    // Prints only an X where the agent is in the moment
+    public String printMap2() {
+        String mapString = "\n";
+        for(int i = 0; i < this.mapPrint.length; i++) {
+            for (int j = 0; j < this.mapPrint.length; j++) {
+                if (i == agentPositionX && j == agentPositionY) mapString += 'X' + "\t";
+                else if (i == goalPositionX && j == goalPositionY) mapString += 'G' + "\t";
+                else mapString += Integer.toString(this.mapPrint[i][j]) + "\t";
+            }
+            mapString += "\n";
+        }
+
+        return mapString;
+    }
+    
+    public void showMapStatus() {
+        System.out.println(this.utility[0][0]);
+        System.out.print(this.printMap2());
     }
     
     // Update sensors
