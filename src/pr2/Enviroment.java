@@ -21,8 +21,8 @@ public class Enviroment {
     public Enviroment(){
         this.sensors = new int[3][3];
       /*this.map = this.setMap("C:\\Users\\jmnavas\\Documents\\NetBeansProjects\\Pr1-HelloWorld\\config\\mapWithoutObstacle.txt");*/
-        this.map = this.setMap("C:\\Users\\joy111\\OneDrive\\Actual\\DBA\\Practicas\\Practica2\\mapWithVerticalWall.txt");
-      /*this.map = this.setMap("/home/galvez/Universidad/DBA/Pr1-maps/mapWithoutObstacle.txt");*/
+       // this.map = this.setMap("C:\\Users\\joy111\\OneDrive\\Actual\\DBA\\Practicas\\Practica2\\mapWithVerticalWall.txt");
+        this.map = this.setMap("/home/galvez/Universidad/DBA/Pr1-maps/mapWithVerticalWall.txt");
         this.utility = new double [this.map.rows][this.map.columns];
         this.mapPrint = this.map.myMap;
     }
@@ -43,6 +43,25 @@ public class Enviroment {
                 break;
                 
             case "moveRight":
+                agentPositionY += 1;
+                break;
+            case "moveUpLeft":
+                agentPositionX -= 1;
+                agentPositionY -= 1;
+                break;
+            
+            case "moveUpRight":
+                agentPositionX -= 1;
+                agentPositionY += 1;
+                break;
+                
+            case "moveDownLeft":
+                agentPositionX += 1;
+                agentPositionY -= 1;
+                break;
+                
+            case "moveDownRight":
+                agentPositionX += 1;
                 agentPositionY += 1;
                 break;
           }
@@ -120,7 +139,23 @@ public class Enviroment {
        
     }
     
-    
+    public int[] getMinPosUtility(int agentPosX, int agentPosY){
+        double minUtility = 10000.0;
+        int[] pairMinPosition = new int[2];
+        
+        for(int i=-1; i < sensors.length-1; i++)       
+            for(int j=-1; j < sensors.length-1; j++){
+                double currentUtility = this.utility[agentPosX+i][agentPosY+j];
+                if(currentUtility < minUtility){
+                    pairMinPosition[0] = agentPosX+i;
+                    pairMinPosition[1] = agentPosY+j;
+                    minUtility = currentUtility;
+                }
+                    
+            }
+                
+        return pairMinPosition;
+    }
     
     
     public int getGoalPositionX(){
@@ -165,6 +200,12 @@ public class Enviroment {
     }
     
     public void setUtility(double value,int row, int colum){
+        
+        this.utility[row][colum] = value;
+        
+    }
+    
+    public void addUtility(double value,int row, int colum){
         
         this.utility[row][colum] += value;
         
