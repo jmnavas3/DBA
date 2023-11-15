@@ -24,7 +24,8 @@ public class BehavUtility extends Behaviour{
         String action = "nothing";
         
         int goalX, goalY, agentX, agentY;
-        int pared = 10000;
+        double pared = 10000.0;
+        double visitada = 10.0;
         
         goalX = env.getGoalPositionX();
         
@@ -44,11 +45,16 @@ public class BehavUtility extends Behaviour{
         
         for(int i=-1; i < sensors.length-1; i++){          
             for(int j=-1; j < sensors.length-1; j++){      
+                
                 if(sensors[i+1][j+1] == -1){
-                    env.setUtility(pared, agentX+i, agentY+j);
+                    env.addUtility(pared, agentX+i, agentY+j);
                 }
                 else{
-                    env.setUtility(env.distance(agentX+i, agentY+j),agentX+i, agentY+j);
+                    env.addUtility(env.distance(agentX+i, agentY+j),agentX+i, agentY+j);
+                }
+                // Si es la posicion del agente se penaliza
+                if(i==0 && j==0){
+                    env.addUtility(visitada, agentX+i, agentY+j);
                 }
             }
                 
@@ -57,7 +63,7 @@ public class BehavUtility extends Behaviour{
         int nextPosX = pairNextPos[0];
         int nextPosY = pairNextPos[1];
         
-        //System.out.println(nextPosX+"," +nextPosY);
+        System.out.println("next pos: "+nextPosX+"," +nextPosY);
         
         /* Agente que usa el mapa de utilidad */
         if(nextPosX < agentX && nextPosY == agentY){

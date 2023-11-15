@@ -22,8 +22,9 @@ public class BehavMoveAgent extends Behaviour{
         
         String nextAction = env.getAction();
         
-        env.doMoveAction(nextAction);
         env.showMapStatus();
+        env.doMoveAction(nextAction);
+        
         
         ds.put("enviroment", env);
         
