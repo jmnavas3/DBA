@@ -20,9 +20,9 @@ public class Enviroment {
                                        /* Unicamente coge esta, no pasa por el behaviour de utilidad */
     public Enviroment(){
         this.sensors = new int[3][3];
-      //this.map = this.setMap("C:\\Users\\jmnavas\\Documents\\NetBeansProjects\\Pr1-HelloWorld\\config\\mapWithoutObstacle.txt");
+      this.map = this.setMap("C:\\Users\\jmnavas\\Documents\\NetBeansProjects\\Pr1-HelloWorld\\config\\mapWithoutObstacle.txt");
       //this.map = this.setMap("C:\\Users\\joy111\\OneDrive\\Actual\\DBA\\Practicas\\Practica2\\mapWithVerticalWall.txt");
-        this.map = this.setMap("/home/galvez/Universidad/DBA/Pr1-maps/mapWithoutObstacle.txt");
+      //this.map = this.setMap("/home/galvez/Universidad/DBA/Pr1-maps/mapWithoutObstacle.txt");
         this.utility = new double [this.map.rows][this.map.columns];
         this.mapPrint = this.map.myMap;
     }
@@ -128,9 +128,12 @@ public class Enviroment {
     }
     
     public void see2(){
-        for(int i=-1; i < sensors.length-1; i++){          
-            for(int j=-1; j < sensors.length-1; j++){ 
-                sensors[i+1][j+1] = map.myMap[agentPositionX+i][agentPositionY+j];
+        for(int i=-1; i < sensors.length-1; i++){
+            for(int j=-1; j < sensors.length-1; j++){
+                if (checkMapLimits(agentPositionX+i, agentPositionY+j))
+                    sensors[i+1][j+1] = map.myMap[agentPositionX+i][agentPositionY+j];
+                else
+                    sensors[i+1][j+1] = -2;
             }
         }
     }
@@ -150,15 +153,18 @@ public class Enviroment {
     public int[] getMinPosUtility(int agentPosX, int agentPosY){
         double minUtility = 20000.0;
         int[] pairMinPosition = new int[2];
+        double currentUtility = minUtility;
         
-        for(int i=-1; i < sensors.length-1; i++)       
+        for(int i=-1; i < sensors.length-1; i++)
             for(int j=-1; j < sensors.length-1; j++){
-                double currentUtility = this.utility[agentPosX+i][agentPosY+j];
-                if(currentUtility < minUtility){
-                    pairMinPosition[0] = agentPosX+i;
-                    pairMinPosition[1] = agentPosY+j;
-                    minUtility = currentUtility;
-                    //System.out.println("x:"+(agentPosX+i)+"y:"+(agentPosY+j)+"util:"+minUtility);
+                if (checkMapLimits(agentPosX+i, agentPosY+j)) {
+                    currentUtility = this.utility[agentPosX+i][agentPosY+j];
+                    if(currentUtility < minUtility){
+                        pairMinPosition[0] = agentPosX+i;
+                        pairMinPosition[1] = agentPosY+j;
+                        minUtility = currentUtility;
+                        //System.out.println("x:"+(agentPosX+i)+"y:"+(agentPosY+j)+"util:"+minUtility);
+                    }
                 }
                     
             }
@@ -208,23 +214,23 @@ public class Enviroment {
         return accion;
     }
     
-    public void setUtility(double value,int row, int colum){
-        
-        this.utility[row][colum] = value;
-        
-    }
-    
-    public void addUtility(double value,int row, int colum){
-        
-        this.utility[row][colum] += value;
+    public void setUtility(double value,int row, int column){
+        if (checkMapLimits(row, column))
+            this.utility[row][column] = value;
         
     }
     
-    public double getUtility(int row, int colum) throws Exception{
-        if(this.utility.length < row && this.utility.length < colum){
+    public void addUtility(double value,int row, int column){
+        if (checkMapLimits(row, column))
+            this.utility[row][column] += value;
+        
+    }
+    
+    public double getUtility(int row, int column) throws Exception{
+        if(this.utility.length < row && this.utility.length < column){
             throw new Exception("Nos hemos pasado de filas o columnas");
         }
-        return this.utility[row][colum];
+        return this.utility[row][column];
     }
     
     
@@ -239,6 +245,12 @@ public class Enviroment {
                 Math.pow(this.goalPositionX - x1, 2) +
                 Math.pow(this.goalPositionY - y1, 2)
         );
+    }
+    
+    public boolean checkMapLimits(int posX, int posY) {
+        boolean inX = posX >= 0 && posX < map.rows;
+        boolean inY = posY >= 0 && posY < map.columns;
+        return inX && inY;
     }
     
     // Function that returns true if the agent is in the goal position
