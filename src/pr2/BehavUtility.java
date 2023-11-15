@@ -6,8 +6,6 @@ package pr2;
 
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
-import java.util.Iterator;
-import jade.core.Agent;
 
 /**
  *
@@ -21,40 +19,38 @@ public class BehavUtility extends Behaviour{
         DataStore ds = this.getDataStore();
         Enviroment env = (Enviroment) ds.get("enviroment");
         
-        String action = "nothing";
+        env.criteria();
+        
+        /*String action = "nothing";
         
         int goalX, goalY, agentX, agentY;
         int pared = 10000;
         
-        goalX = env.getGoalPositionX();
+        goalX = env.getGoalX();
+        goalY = env.getGoalY();
         
-      //  System.out.println("posicion X objetivo: " + env.getGoalPositionX());
-        goalY = env.getGoalPositionY();
+        agentX = env.getAgentX();
+        agentY = env.getAgentY();
         
-     //   System.out.println("posicion Y objetivo: " + env.getGoalPositionY());
-        
-        agentX = env.getAgentPositionX();
-     //   System.out.println("posicion X agente: " + env.getAgentPositionX());
-        
-        agentY = env.getAgentPositionY();
-     //   System.out.println("posicion Y agente: " + env.getAgentPositionY());
-        
+//        System.out.println("posicion X objetivo: " + env.getGoalPositionX());
+//        System.out.println("posicion Y objetivo: " + env.getGoalPositionY());
+//        System.out.println("posicion X agente: " + env.getAgentPositionX());
+//        System.out.println("posicion Y agente: " + env.getAgentPositionY());
+
         int[][] sensors = env.getSensors();
         int valorUtilidad;
         
-        for(int i=-1; i < sensors.length-1; i++){          
-            for(int j=-1; j < sensors.length-1; j++){               
+        for(int i=-1; i < sensors.length-1; i++){
+            for(int j=-1; j < sensors.length-1; j++){
                 if(sensors[i+1][j+1] == -1){
                     env.setUtility(pared, agentX+i, agentY+j);
-                }
-                else{
+                } else{
                     env.setUtility(env.distance(agentX+i, agentY+j),agentX+i, agentY+j);
                 }
             }
-                
         }
         
-        /* Agente basico */
+        // Criterio de decisión simple 
         if(agentX > goalX && sensors[0][1] != -1){
             action = "moveUp";
         }
@@ -66,12 +62,13 @@ public class BehavUtility extends Behaviour{
         }
         else if (agentY < goalY && sensors[1][2] != -1){
             action = "moveRight";
+        } else {
+            action = "moveRight";
         }
-        
         env.setAction(action);  
+        */
         
         ds.put("enviroment", env);
-        
         this.setDataStore(ds);
     }
     
