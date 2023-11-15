@@ -20,7 +20,7 @@ public class Enviroment {
                                        /* Unicamente coge esta, no pasa por el behaviour de utilidad */
     public Enviroment(){
         this.sensors = new int[3][3];
-      this.map = this.setMap("C:\\Users\\jmnavas\\Documents\\NetBeansProjects\\Pr1-HelloWorld\\config\\mapWithoutObstacle.txt");
+      this.map = this.setMap("C:\\Users\\jmnavas\\Documents\\NetBeansProjects\\Pr1-HelloWorld\\config\\mapWithComplexObstacle1.txt");
       //this.map = this.setMap("C:\\Users\\joy111\\OneDrive\\Actual\\DBA\\Practicas\\Practica2\\mapWithVerticalWall.txt");
       //this.map = this.setMap("/home/galvez/Universidad/DBA/Pr1-maps/mapWithoutObstacle.txt");
         this.utility = new double [this.map.rows][this.map.columns];
@@ -104,7 +104,6 @@ public class Enviroment {
     }
     
     public void showMapStatus() {
-        System.out.println(this.utility[0][0]);
         System.out.print(this.printMap2());
     }
     
@@ -159,7 +158,7 @@ public class Enviroment {
             for(int j=-1; j < sensors.length-1; j++){
                 if (checkMapLimits(agentPosX+i, agentPosY+j)) {
                     currentUtility = this.utility[agentPosX+i][agentPosY+j];
-                    if(currentUtility < minUtility){
+                    if(currentUtility < minUtility && checkMove(i, j)){
                         pairMinPosition[0] = agentPosX+i;
                         pairMinPosition[1] = agentPosY+j;
                         minUtility = currentUtility;
@@ -251,6 +250,25 @@ public class Enviroment {
         boolean inX = posX >= 0 && posX < map.rows;
         boolean inY = posY >= 0 && posY < map.columns;
         return inX && inY;
+    }
+
+    public boolean checkMove(int posX, int posY) {
+        boolean isLateral = posX==0 ^ posY==0; // XOR: 01, 10 true ; 00, 11 false
+        boolean inLimit = checkMapLimits(agentPositionX + posX, agentPositionY + posY);
+        boolean leftRight, upDown;
+        boolean validMove = isLateral;
+
+        if (!isLateral && inLimit) {
+            /*  sensors[0][0] arriba izqda --> if (arriba) || (izquierda)
+                sensors[0][2]  arriba decha
+                sensors[2][0]  abajo  izqda
+                sensors[2][2]   abajo  decha */
+            leftRight = (sensors[1][posY + 1] != -1);
+            upDown = (sensors[posX + 1][1] != -1);
+            validMove = leftRight && upDown;
+        }
+        
+        return validMove;
     }
     
     // Function that returns true if the agent is in the goal position

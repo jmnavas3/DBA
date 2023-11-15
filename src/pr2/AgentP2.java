@@ -20,8 +20,8 @@ public class AgentP2 extends Agent {
     protected void setup() {
         sharedDataStore = new DataStore();
         Enviroment env = new Enviroment();
-        env.setAgentPosition(0,9);
-        env.setGoalPosition(9,9);
+        env.setAgentPosition(5,6);
+        env.setGoalPosition(8,6);
         sharedDataStore.put("enviroment", env);
         
         // Behaviour that moves the agent
