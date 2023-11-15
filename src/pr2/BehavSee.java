@@ -6,7 +6,6 @@ package pr2;
 
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
-import jade.core.behaviours.OneShotBehaviour;
 
 
 /**
