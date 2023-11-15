@@ -19,7 +19,7 @@ public class BehavSee extends Behaviour {
     public void action() {
         DataStore ds = this.getDataStore();
         Enviroment env = (Enviroment) ds.get("enviroment");
-        env.see();
+        env.see2();
         ds.put("enviroment", env);
         this.setDataStore(ds);
     }
