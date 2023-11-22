@@ -1,12 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pr2;
 
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
-import jade.core.behaviours.OneShotBehaviour;
 
 
 /**
@@ -19,7 +14,7 @@ public class BehavSee extends Behaviour {
     public void action() {
         DataStore ds = this.getDataStore();
         Enviroment env = (Enviroment) ds.get("enviroment");
-        env.see2();
+        env.see();
         ds.put("enviroment", env);
         this.setDataStore(ds);
     }

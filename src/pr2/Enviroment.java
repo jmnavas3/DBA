@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pr2;
 
 /**
@@ -9,18 +5,17 @@ package pr2;
  * @author galvez
  */
 public class Enviroment {
-    public MapDto map;
+    public MapParser map;
     public int[][] mapPrint;
     private int goalPositionX, goalPositionY;       
     private int agentPositionX, agentPositionY;
     private int[][] sensors;
     private double[][] utility;
+    public String accion;
     
-    public String accion; /* variable provisional para pasar mov a BehavMoveAgent por temas de que se ejecute primero*/
-                                       /* Unicamente coge esta, no pasa por el behaviour de utilidad */
     public Enviroment(){
         this.sensors = new int[3][3];
-      this.map = this.setMap("C:\\Users\\jmnavas\\Documents\\NetBeansProjects\\Pr1-HelloWorld\\config\\mapWithComplexObstacle1.txt");
+      this.map = this.setMap("C:\\Users\\jmnavas\\Documents\\NetBeansProjects\\Pr1-HelloWorld\\config\\mapWithComplexObstacle3.txt");
       //this.map = this.setMap("C:\\Users\\joy111\\OneDrive\\Actual\\DBA\\Practicas\\Practica2\\mapWithVerticalWall.txt");
       //this.map = this.setMap("/home/galvez/Universidad/DBA/Pr1-maps/mapWithoutObstacle.txt");
         this.utility = new double [this.map.rows][this.map.columns];
@@ -68,28 +63,8 @@ public class Enviroment {
         System.out.println(action);
     }
     
-    public void showPath() {
-        this.mapPrint[agentPositionX][agentPositionY] = 8;
-        System.out.println(this.utility[0][0]);
-        System.out.print(this.printMap());
-    }
-    
-    // Prints an X in all the positions the agent has been
-    public String printMap() {
-        String mapString = "\n";
-        for(int i = 0; i < this.mapPrint.length; i++) {
-            for (int j = 0; j < this.mapPrint.length; j++) {
-                if (this.mapPrint[i][j] == 8) mapString += 'X' + "\t";
-                else mapString += Integer.toString(this.mapPrint[i][j]) + "\t";
-            }
-            mapString += "\n";
-        }
-
-        return mapString;
-    }
-    
     // Prints only an X where the agent is in the moment
-    public String printMap2() {
+    public String printMap() {
         String mapString = "\n";
         for(int i = 0; i < this.mapPrint.length; i++) {
             for (int j = 0; j < this.mapPrint.length; j++) {
@@ -104,29 +79,11 @@ public class Enviroment {
     }
     
     public void showMapStatus() {
-        System.out.print(this.printMap2());
+        System.out.print(this.printMap());
     }
     
     // Update sensors
     public void see(){
-        int x = agentPositionX, y = agentPositionY, k = 0, l = 0;
-        boolean overX, overY;
-        
-        for (int i = x-1; i < x+1; i++) {
-            overX = i > map.rows+1;
-            for (int j = y-1; j < y+1; j++) {
-                overY = j > map.rows+1;
-                if (overX || overY) {
-                    sensors[k][l++] = -1;
-                } else 
-                    sensors[k][l++] = map.myMap[i][j];
-            }
-            k++;
-            l=0;
-        }
-    }
-    
-    public void see2(){
         for(int i=-1; i < sensors.length-1; i++){
             for(int j=-1; j < sensors.length-1; j++){
                 if (checkMapLimits(agentPositionX+i, agentPositionY+j))
@@ -137,7 +94,6 @@ public class Enviroment {
         }
     }
     
-    
     public void setAgentPosition(int x, int y){
         this.agentPositionX = x;
         this.agentPositionY = y;
@@ -146,7 +102,6 @@ public class Enviroment {
     public void setGoalPosition(int x, int y){
         this.goalPositionX = x;
         this.goalPositionY = y;
-       
     }
     
     public int[] getMinPosUtility(int agentPosX, int agentPosY){
@@ -162,81 +117,52 @@ public class Enviroment {
                         pairMinPosition[0] = agentPosX+i;
                         pairMinPosition[1] = agentPosY+j;
                         minUtility = currentUtility;
-                        //System.out.println("x:"+(agentPosX+i)+"y:"+(agentPosY+j)+"util:"+minUtility);
                     }
                 }
-                    
             }
                 
         return pairMinPosition;
     }
     
-    
-    public int getGoalPositionX(){
-    
-        return this.goalPositionX;
-    }
-    
-    public int getGoalPositionY(){
-    
-        return this.goalPositionY;
-    }
-    
     public int getAgentPositionX(){
-    
         return this.agentPositionX;
     }
-    public int getAgentPositionY(){
     
+    public int getAgentPositionY(){
         return this.agentPositionY;
     }    
     
-    public MapDto setMap(String map){
-        MapDto result;
+    public MapParser setMap(String map){
+        MapParser result;
         try {
-            result = MapDto.generate(map);
+            result = MapParser.generate(map);
         } catch (Exception e) {
             return null;
         }
         return result;
     }
-  
     
     public String setAction(String move){
         accion = move;
-        
         return accion;
     }
     
     public String getAction(){
-        
         return accion;
-    }
-    
-    public void setUtility(double value,int row, int column){
-        if (checkMapLimits(row, column))
-            this.utility[row][column] = value;
-        
     }
     
     public void addUtility(double value,int row, int column){
         if (checkMapLimits(row, column))
             this.utility[row][column] += value;
-        
     }
     
     public double getUtility(int row, int column) throws Exception{
-        if(this.utility.length < row && this.utility.length < column){
-            throw new Exception("Nos hemos pasado de filas o columnas");
-        }
         return this.utility[row][column];
     }
     
     
     public int[][] getSensors(){
-        
         return this.sensors;
-      
     }
       
     public double distance (int x1, int y1) {
@@ -259,10 +185,6 @@ public class Enviroment {
         boolean validMove = isLateral;
 
         if (!isLateral && inLimit) {
-            /*  sensors[0][0] arriba izqda --> if (arriba) || (izquierda)
-                sensors[0][2]  arriba decha
-                sensors[2][0]  abajo  izqda
-                sensors[2][2]   abajo  decha */
             leftRight = (sensors[1][posY + 1] != -1);
             upDown = (sensors[posX + 1][1] != -1);
             validMove = leftRight && upDown;

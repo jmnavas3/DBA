@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pr2;
 
 import java.io.File;
@@ -12,19 +8,19 @@ import java.util.Scanner;
  *
  * @author jmnavas
  */
-public class MapDto {
+public class MapParser {
     private final String name;
     public final int rows, columns;
     public final int[][] myMap;
     
-    private MapDto(String name, int[][] map) {
+    private MapParser(String name, int[][] map) {
         this.name = name;
         this.myMap = map;
         this.rows = this.myMap.length;
         this.columns = this.myMap[0].length;
     }
     
-    public static MapDto generate(String map) throws Exception {
+    public static MapParser generate(String map) throws Exception {
         int[][] data;
         int row = 0;
         File mapFile = new File(map);
@@ -45,7 +41,7 @@ public class MapDto {
             throw new Exception("Map DTO exception: " + e.getMessage());
         }
         
-        return new MapDto(map, data);
+        return new MapParser(map, data);
     }
     
     private static Scanner validate_file(File file) throws Exception {

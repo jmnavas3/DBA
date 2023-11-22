@@ -1,17 +1,9 @@
 package pr2;
 
-import pr1HelloWorld.*;
-import java.util.Iterator;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
 
-/*
-    Comportamientos agente:
-    1. Ver
-    2. Calcular
-    3. Moverse
-*/
 
 public class AgentP2 extends Agent {
     public DataStore sharedDataStore;
@@ -21,7 +13,7 @@ public class AgentP2 extends Agent {
         sharedDataStore = new DataStore();
         Enviroment env = new Enviroment();
         env.setAgentPosition(5,6);
-        env.setGoalPosition(8,6);
+        env.setGoalPosition(9,4);
         sharedDataStore.put("enviroment", env);
         
         // Behaviour that moves the agent
