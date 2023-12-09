@@ -1,39 +1,37 @@
 package pr3;
 
+import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
+import jade.lang.acl.ACLMessage;
+import java.util.Random;
 
 
 public class AgentSanta extends Agent {
-    public DataStore sharedDataStore;
+    private int step; 
+    private int x_pos_rudolph, y_pos_rudolph;
     
     @Override
     protected void setup() {
-        sharedDataStore = new DataStore();
-        Enviroment env = new Enviroment();
-        env.setAgentPosition(5,6);
-        env.setGoalPosition(9,4);
-        sharedDataStore.put("enviroment", env);
+        this.step = 0;
         
-        // Behaviour that moves the agent
-        Behaviour behavMoveAgent = new BehavMoveAgent();
-        behavMoveAgent.setDataStore(sharedDataStore);
+        ACLMessage msg = blockingReceive();
+        System.out.print(msg.getContent());
         
+        int aleatorio = (int)Math.floor(Math.random()*10);
         
-        // Behaviour that calculate the next move
-        Behaviour behavUtility = new BehavUtility();
-        behavUtility.setDataStore(sharedDataStore);
-        
-        
-        // Behaviour that update sensors
-        Behaviour behavSee = new BehavSee();
-        behavSee.setDataStore(sharedDataStore);
-        
-        addBehaviour(behavSee);
-        addBehaviour(behavUtility);
-        addBehaviour(behavMoveAgent);
-
+        if (1 <= aleatorio && aleatorio <= 8){
+            ACLMessage preguntaSanta = new ACLMessage();
+            preguntaSanta.addReceiver(new AID("AgentP3", AID.ISLOCALNAME));
+            preguntaSanta.setContent("Si has sido bueno");
+            this.send(preguntaSanta);
+        } else {
+            ACLMessage preguntaSanta = new ACLMessage();
+            preguntaSanta.addReceiver(new AID("AgentP3", AID.ISLOCALNAME));
+            preguntaSanta.setContent("No has sido bueno");
+            this.send(preguntaSanta);
+        }
 
     }
 
