@@ -17,20 +17,21 @@ public class AgentSanta extends Agent {
         this.step = 0;
         
         ACLMessage msg = blockingReceive();
-        System.out.print(msg.getContent());
+        System.out.println(msg.getContent());
         
         int aleatorio = (int)Math.floor(Math.random()*10);
+        System.out.println(aleatorio);
+        
+        ACLMessage respuestaSanta = new ACLMessage();
         
         if (1 <= aleatorio && aleatorio <= 8){
-            ACLMessage preguntaSanta = new ACLMessage();
-            preguntaSanta.addReceiver(new AID("AgentP3", AID.ISLOCALNAME));
-            preguntaSanta.setContent("Si has sido bueno");
-            this.send(preguntaSanta);
+            respuestaSanta.addReceiver(new AID("AgentP3", AID.ISLOCALNAME));
+            respuestaSanta.setContent("Si has sido bueno");
+            this.send(respuestaSanta);
         } else {
-            ACLMessage preguntaSanta = new ACLMessage();
-            preguntaSanta.addReceiver(new AID("AgentP3", AID.ISLOCALNAME));
-            preguntaSanta.setContent("No has sido bueno");
-            this.send(preguntaSanta);
+            respuestaSanta.addReceiver(new AID("AgentP3", AID.ISLOCALNAME));
+            respuestaSanta.setContent("No has sido bueno");
+            this.send(respuestaSanta);
         }
 
     }

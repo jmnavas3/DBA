@@ -46,13 +46,11 @@ public class AgentP3 extends Agent {
         this.send(preguntaSanta);
 
         ACLMessage respuestaSanta = blockingReceive();
-
+        System.out.println(respuestaSanta.getContent());
         
         if(respuestaSanta.getContent()=="No has sido bueno"){
-            
-        } else {
             // Si no has sido bueno deja se borra el agente
             this.doDelete();
-        }
+        } 
     }
 }
