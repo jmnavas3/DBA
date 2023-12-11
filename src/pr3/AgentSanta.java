@@ -2,10 +2,12 @@ package pr3;
 
 import jade.core.AID;
 import jade.core.Agent;
+import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.DataStore;
 import jade.lang.acl.ACLMessage;
+import java.util.HashSet;
 
 
 public class AgentSanta extends Agent {
@@ -15,6 +17,9 @@ public class AgentSanta extends Agent {
 
     @Override
     protected void setup() {
+        
+        Behaviour behavMessage = new MessageBehav();
+        addBehaviour(behavMessage);
     /*
         ACLMessage msg = new ACLMessage();
         msg.addReceiver(new AID("agentReceive", AID.ISLOCALNAME));
@@ -22,11 +27,16 @@ public class AgentSanta extends Agent {
         send(msg);
         
         */
-        ACLMessage peticion= new ACLMessage(ACLMessage.REQUEST);
-        peticion.addReceiver(new AID("Rudolph",AID.ISLOCALNAME));
+    /*
+        ACLMessage msg= new ACLMessage();
+        
+        msg.addReceiver(new AID("Rudolph",AID.ISLOCALNAME));
         //peticion.setConversationId("id");
-        send(peticion);
-        System.out.println("Peticion recibida: " + peticion.getContent());
+        msg.setContent("HOLA");
+        
+        send(msg);
+    */
+       // System.out.println("Peticion recibida: " + peticion.getContent());
     
     
         /*
@@ -47,33 +57,9 @@ public class AgentSanta extends Agent {
         */
         
         
-        /*
-        switch (step) {
-                    
-            case 0 -> {
-                System.out.println("Valor de step: " + step);
-                ACLMessage msg = new ACLMessage();
-                msg.addReceiver(new AID("Rudolph",AID.ISLOCALNAME));
-                msg.setContent("Contenido del mensaje");
-                msg.setConversationId("ID");
-                send(msg);
-                step = 1;
-                System.out.println("Valor de step: " + step);
-            }
-                    
-            case 1 -> {
-                System.out.println("Entra en el case 1");
-                ACLMessage msg = blockingReceive();
-              /*if(msg.getConversationId().equals("ID")) {
-                    System.out.println("El mensaje es:" + msg.getContent());
-                }
-                else
-                    System.out.println("Error en la conversacion");
-                        
-                System.out.println("El mensaje es: " + msg.getContent());
-            }
-        }
-        */        
+        
+
+               
                 
         
         
@@ -81,6 +67,7 @@ public class AgentSanta extends Agent {
         //System.out.println("Valor de step :" + step);
             
     }   //Setup
+    
             
         
         
@@ -153,13 +140,7 @@ public class AgentSanta extends Agent {
                 
      // Fin ComProtocolos
      */
-      public int getStep(){
-        return step;
-    };
-    
-    public void setStep(int s){
-        this.step = s;
-    }; 
+   
         
 } //Action
     
