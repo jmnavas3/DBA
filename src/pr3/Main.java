@@ -1,9 +1,13 @@
-package pr2;
+package pr3;
 
+import jade.core.Runtime;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
+import pr3.AgentSanta;
+import pr3.AgentP3;
+
 
 /**
  *
@@ -15,12 +19,16 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            jade.core.Runtime entorno = jade.core.Runtime.instance();
+            Runtime entorno = Runtime.instance();
             Profile p = new ProfileImpl();
             ContainerController cc = entorno.createAgentContainer(p);
 
-            AgentController a1 = crearAgente(cc, "pathFinder", "AgentP2");
-            a1.start();
+            // Crear agente buscador de la P3
+            AgentController agentP3 = cc.createNewAgent("AgentP3",AgentP3.class.getCanonicalName(), null);
+            agentP3.start();
+            // Crear agente de Santa
+            AgentController agentSanta = cc.createNewAgent("AgentSanta",AgentSanta.class.getCanonicalName(), null);
+            agentSanta.start();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

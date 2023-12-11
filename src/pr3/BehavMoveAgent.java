@@ -1,4 +1,4 @@
-package pr2;
+package pr3;
 
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;

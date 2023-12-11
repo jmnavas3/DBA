@@ -1,11 +1,11 @@
-package pr2;
+package pr3;
 
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
 
 
-public class AgentP2 extends Agent {
+public class AgentRudolph extends Agent {
     public DataStore sharedDataStore;
     
     @Override
