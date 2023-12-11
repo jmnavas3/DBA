@@ -18,7 +18,7 @@ public class AgentSanta extends Agent {
     @Override
     protected void setup() {
         
-        Behaviour behavMessage = new MessageBehav();
+        Behaviour behavMessage = new BehavMessage();
         addBehaviour(behavMessage);
     /*
         ACLMessage msg = new ACLMessage();
