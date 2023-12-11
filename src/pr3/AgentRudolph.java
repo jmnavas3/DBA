@@ -19,10 +19,15 @@ public class AgentRudolph extends Agent {
         ACLMessage msg = blockingReceive();
         System.out.print("recibiendo mensaje: " + msg.getContent());
         
-        ACLMessage msg2 = new ACLMessage();
-        msg2.addReceiver(new AID("Santa",AID.ISLOCALNAME));
-        msg2.setContent("Mensaje NUEVO");
-        send(msg2);
+        ACLMessage replay = msg.createReply();
+        
+        replay.setContent("Hola Agente");
+        send(replay);
+        
+        //ACLMessage msg2 = new ACLMessage();
+       //msg2.addReceiver(new AID("Santa",AID.ISLOCALNAME));
+        //msg2.setContent("Mensaje NUEVO");
+        //send(msg2);
         
         //ACLMessage replay = msg.createReply();
         //replay.setContent("Nuevo mensaje");

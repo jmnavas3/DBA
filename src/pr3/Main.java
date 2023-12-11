@@ -26,8 +26,8 @@ public class Main {
             
             ContainerController cc = entorno.createAgentContainer(p);
 
-            //AgentController a1 = crearAgente(cc, "pathFinder", "AgentP3");
-            //a1.start();
+            AgentController a1 = crearAgente(cc, "pathFinder", "AgentP3");
+            a1.start();
             
             /*AgentController  buscador = crearAgente(cc, "pathFinder", "AgentP3");
             buscador.start();
@@ -45,8 +45,8 @@ public class Main {
             
             
             
-            AgentController santa = cc.createNewAgent("Santa", AgentSanta.class.getCanonicalName(), null);
-            santa.start();
+           // AgentController santa = cc.createNewAgent("Santa", AgentSanta.class.getCanonicalName(), null);
+           // santa.start();
             
             AgentController rudolph = cc.createNewAgent("Rudolph", AgentRudolph.class.getCanonicalName(), null);
             rudolph.start();

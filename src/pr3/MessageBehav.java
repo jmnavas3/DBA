@@ -6,7 +6,7 @@ package pr3;
 
 import jade.core.Agent;
 import jade.core.AID;
-import jade.core.behaviours.OneShotBehaviour;
+import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 //import jade.core.behaviours.DataStore;
 
@@ -14,18 +14,46 @@ import jade.lang.acl.ACLMessage;
  *
  * @author joy111
  */
-public class MessageBehav extends OneShotBehaviour {
+public class MessageBehav extends CyclicBehaviour {
+    
+    private int step = 0;
     
         
     @Override
     public void action() {
-        /*
-       ACLMessage msg = new ACLMessage();
-       msg.setContent("Contenido del mensaje");
-       msg.addReceiver(new AID("Rudolph", AID.ISLOCALNAME));   //el valor del AID tiene que coincidir con el nombre dado al crear el agente
-       send(msg);
-       System.out.println("Enviando mensaje");
-        */
+        
+            switch (step) {
+                    
+            case 0 -> {
+                //System.out.println("Valor de step: " + step);
+                ACLMessage msg = new ACLMessage();
+                
+                msg.addReceiver(new AID("Rudolph",AID.ISLOCALNAME));
+                
+                msg.setContent("Hola Rudolph");
+                
+               // msg.setConversationId("ID");
+                myAgent.send(msg);
+                
+                step = 1;
+                
+                System.out.println("Valor de step: " + step);
+            }
+                    
+            case 1 -> {
+                //System.out.println("Entra en el case 1");
+                ACLMessage msg = myAgent.blockingReceive();
+                System.out.println("Mensaje de Rudolph: " + msg.getContent());
+              /*if(msg.getConversationId().equals("ID")) {
+                    System.out.println("El mensaje es:" + msg.getContent());
+                }
+                else
+                    System.out.println("Error en la conversacion");
+                        
+                System.out.println("El mensaje es: " + msg.getContent());
+                */
+            }
+        }
     }
     
    

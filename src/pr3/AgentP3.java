@@ -17,39 +17,9 @@ public class AgentP3 extends Agent {
         sharedDataStore = new DataStore();
         Enviroment env = new Enviroment();
         env.setAgentPosition(0,0);
-        env.setGoalPosition(10,10);
+        env.setGoalPosition(9,9);
         sharedDataStore.put("enviroment", env);
         
-        //Paso de mensajes, este es el que inicia la conversacion.
-        
-      
-        /*
-        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-      
-        msg.addReceiver(new AID("jorge-receiver", AID.ISLOCALNAME));
-        
-        msg.setContent("Hola agente");
-        
-        msg.setConversationId("greeting-conversation");
-        
-        this.send(msg);
-        */
-        
-      /*  int step = 0;
-      //  switch (step){
-        //    case 0 -> {
-                ACLMessage msg = new ACLMessage(ACLMessage);
-                msg.addReceiver(new AID("mjcobo-receiver", AID.ISLOCALNAME));
-                msg.setConversationId(CONVERSATION_ID);
-                myAgent.send(msg);
-               // this.step = 1;
-                }
-            
-           
-        }
-        /*
-        
-        */
         // Behaviour that moves the agent
         Behaviour behavMoveAgent = new BehavMoveAgent();
         behavMoveAgent.setDataStore(sharedDataStore);
@@ -64,9 +34,15 @@ public class AgentP3 extends Agent {
         Behaviour behavSee = new BehavSee();
         behavSee.setDataStore(sharedDataStore);
         
+        Behaviour behavMess = new MessageBehav();
+        
+        addBehaviour(behavMess);
+        
+        
         addBehaviour(behavSee);
         addBehaviour(behavUtility);
         addBehaviour(behavMoveAgent);
+        
 
 
     }
