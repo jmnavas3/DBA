@@ -5,6 +5,7 @@ import jade.core.ProfileImpl;
 import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 
+
 /**
  *
  * @author jmnavas
@@ -17,10 +18,42 @@ public class Main {
         try {
             jade.core.Runtime entorno = jade.core.Runtime.instance();
             Profile p = new ProfileImpl();
+            
+            //Tenemos que darle los parametros al perfil para iniciar los agentes.
+            p.setParameter(Profile.MAIN_HOST, "localhost");
+            p.setParameter(Profile.CONTAINER_NAME, "agentesP1");
+            
+            
             ContainerController cc = entorno.createAgentContainer(p);
 
-            AgentController a1 = crearAgente(cc, "pathFinder", "AgentP2");
-            a1.start();
+            //AgentController a1 = crearAgente(cc, "pathFinder", "AgentP3");
+            //a1.start();
+            
+            /*AgentController  buscador = crearAgente(cc, "pathFinder", "AgentP3");
+            buscador.start();
+            */
+            
+            /*
+            AgentController santa = crearAgente(cc,"santa", null);
+            santa.start();
+            */
+
+            /*
+            AgentController rudolf = crearAgente(cc,"AgentSanta", "AgentSanta");
+            rudolf.start();
+            */
+            
+            
+            
+            AgentController santa = cc.createNewAgent("Santa", AgentSanta.class.getCanonicalName(), null);
+            santa.start();
+            
+            AgentController rudolph = cc.createNewAgent("Rudolph", AgentRudolph.class.getCanonicalName(), null);
+            rudolph.start();
+            
+            //AgentController rudolf = crearAgente(cc, "pathFinder", "AgentRudolph");
+            //rudolf.start();
+            
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
