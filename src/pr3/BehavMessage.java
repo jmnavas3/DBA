@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pr3;
 
-import jade.core.Agent;
 import jade.core.AID;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -23,28 +18,42 @@ public class BehavMessage extends CyclicBehaviour {
         switch (step) {
 
             case 0 -> {
-                ACLMessage msg = new ACLMessage();
+                ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
 
                 msg.addReceiver(new AID("Rudolph", AID.ISLOCALNAME));
-
                 msg.setContent("Hola Rudolph");
                 msg.setConversationId("apto");
-
                 myAgent.send(msg);
 
                 step = 1;
-
-                System.out.println("Valor de step: " + step);
             }
 
             case 1 -> {
                 ACLMessage msg = myAgent.blockingReceive();
-                
-                if ( msg.getConversationId().equals("apto") ) {
-                    System.out.println("Mensaje de Rudolph: " + msg.getContent());
-                } else
-                    System.out.println("Error en la conversacion");
 
+                if (msg.getConversationId().equals("apto")
+                        && msg.getPerformative() == ACLMessage.AGREE) {
+                    ACLMessage replay = msg.createReply(ACLMessage.INFORM);
+                    replay.setContent("Hi");
+                    this.myAgent.send(replay);
+
+                    step = 2;
+                } else {
+                    System.out.println("Error en la conversacion");
+                    // myAgent.doDelete();
+                }
+            }
+
+            case 2 -> {
+                ACLMessage msg = myAgent.blockingReceive();
+
+                if (msg.getConversationId().equals("apto")
+                        && msg.getPerformative() == ACLMessage.INFORM) {
+                     System.out.println("Mensaje de Rudolph: " + msg.getContent());
+                } else {
+                    System.out.println("Error en la conversacion");
+                    // myAgent.doDelete();
+                }
             }
         }
     }
