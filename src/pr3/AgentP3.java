@@ -18,6 +18,19 @@ public class AgentP3 extends Agent {
     }
     
     private void setup_pr3() {
+        /*
+        1. presentarse (a Santa) -> espera respuesta
+        2. dar_codigo (a Rudolph) -> esperar respuesta
+        
+        behaviours en bucle: la última es con santa
+            3. pedir_coord (a Rudolph|Santa) -> esperar respuesta
+            4. behavSee
+            5. behavUtility
+            6. behavMoveAgent
+        7. avisar_llegada (a Santa) -> esperar respuesta final
+        8. eliminar agente
+        */
+        
         Behaviour behavMess = new BehavMessage();
         addBehaviour(behavMess);
     }

@@ -16,12 +16,12 @@ public class BehavReceptor extends CyclicBehaviour {
 
             case 0 -> {
                 ACLMessage msg = myAgent.blockingReceive();
-                System.out.println(msg);
+                System.out.println("Mensaje del agente: " + msg.getContent());
 
                 if (msg.getPerformative() == ACLMessage.REQUEST) {
                     ACLMessage replay = msg.createReply(ACLMessage.AGREE);
                     this.myAgent.send(replay);
-
+                    
                     step = 1;
                 } else {
                     System.out.println("Error en la conversacion");
@@ -31,7 +31,7 @@ public class BehavReceptor extends CyclicBehaviour {
 
             case 1 -> {
                 ACLMessage msg = myAgent.blockingReceive();
-                System.out.println(msg);
+                System.out.println("Mensaje del agente: " + msg.getContent());
 
                 if (msg.getPerformative() == ACLMessage.INFORM) {
                     ACLMessage replay = msg.createReply(ACLMessage.INFORM);
