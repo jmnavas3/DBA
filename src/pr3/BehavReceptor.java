@@ -1,35 +1,30 @@
 package pr3;
 
-import jade.core.AID;
-import jade.core.behaviours.CyclicBehaviour;
+import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 
+public class BehavReceptor extends Behaviour {
 
-public class BehavReceptor extends CyclicBehaviour {
-
-    private int step = 0;
+    private static enum Paso {DAR_CODIGO, DAR_COORD};
+    private Paso step = Paso.DAR_CODIGO;
+    ACLMessage mensaje;
 
     @Override
     public void action() {
-
         switch (step) {
-
-            case 0 -> {
+            case DAR_CODIGO -> {
                 ACLMessage msg = myAgent.blockingReceive();
                 System.out.println("Mensaje del agente: " + msg.getContent());
 
                 if (msg.getPerformative() == ACLMessage.REQUEST) {
                     ACLMessage replay = msg.createReply(ACLMessage.AGREE);
                     this.myAgent.send(replay);
-                    
-                    step = 1;
+                    step = Paso.DAR_COORD;
                 } else {
-                    System.out.println("Error en la conversacion");
-                    // myAgent.doDelete();
+                    messageError();
                 }
             }
-
-            case 1 -> {
+            case DAR_COORD -> {
                 ACLMessage msg = myAgent.blockingReceive();
                 System.out.println("Mensaje del agente: " + msg.getContent());
 
@@ -38,11 +33,20 @@ public class BehavReceptor extends CyclicBehaviour {
                     replay.setContent("Hi back!");
                     this.myAgent.send(replay);
                 } else {
-                    System.out.println("Error en la conversacion");
-                    // myAgent.doDelete();
+                    messageError();
                 }
             }
         }
+    }
+    
+    public void messageError() {
+        System.out.println("Error en la conversacion");
+         myAgent.doDelete();
+    }
+
+    @Override
+    public boolean done() {
+        return true;
     }
 
 }
