@@ -2,22 +2,40 @@ package pr3;
 
 import jade.core.AID;
 import jade.core.behaviours.OneShotBehaviour;
-import jade.core.behaviours.DataStore;
 import jade.lang.acl.ACLMessage;
+import jade.core.Agent;
 
 
 /**
  *
  * @author galvez
  */
-public class BehavAskSantaCode extends OneShotBehaviour {
+public class BehavSantaResponse extends OneShotBehaviour {
+    private Agent myAgent;
     
     @Override
     public void action() {
-        ACLMessage msg = new ACLMessage();
-        msg.addReceiver(new AID("AgentSanta", AID.ISLOCALNAME));
-        msg.setContent("Hola agente");
-        //send(msg);
+        ACLMessage msg = myAgent.blockingReceive();
+        System.out.println(msg.getContent());
+        
+        int aleatorio = (int)Math.floor(Math.random()*10);
+        System.out.println(aleatorio);
+        
+        ACLMessage respuestaSanta = new ACLMessage();
+        
+        if (1 <= aleatorio && aleatorio <= 8){
+            respuestaSanta.addReceiver(new AID("AgentP3", AID.ISLOCALNAME));
+            respuestaSanta.setContent("CodigoRudolph");
+            myAgent.send(respuestaSanta);
+        } else {
+            respuestaSanta.addReceiver(new AID("AgentP3", AID.ISLOCALNAME));
+            respuestaSanta.setContent("No eres digno");
+            myAgent.send(respuestaSanta);
+        }
+    }
+    
+    public void setAgent(Agent agent){
+        myAgent = agent;
     }
     
 }

@@ -1,16 +1,12 @@
 package pr3;
 
-import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
-import jade.lang.acl.ACLMessage;
 
 
 public class AgentP3 extends Agent {
     public DataStore sharedDataStore;
-    private String santaCode;
-    private int step;
     
     @Override
     protected void setup() {
@@ -19,7 +15,10 @@ public class AgentP3 extends Agent {
         env.setAgentPosition(5,6);
         env.setGoalPosition(9,4);
         sharedDataStore.put("enviroment", env);
-        this.step = 0;
+        
+        Behaviour behavAskSantaCode = new BehavAskSantaCode();
+        behavAskSantaCode.setAgent(this);
+        addBehaviour(behavAskSantaCode);
         
         // Behaviour that moves the agent
         Behaviour behavMoveAgent = new BehavMoveAgent();
@@ -40,17 +39,5 @@ public class AgentP3 extends Agent {
         addBehaviour(behavMoveAgent);
         
         
-        ACLMessage preguntaSanta = new ACLMessage();
-        preguntaSanta.addReceiver(new AID("AgentSanta", AID.ISLOCALNAME));
-        preguntaSanta.setContent("Hola santa. ¿He sido un chico bueno?");
-        this.send(preguntaSanta);
-
-        ACLMessage respuestaSanta = blockingReceive();
-        System.out.println(respuestaSanta.getContent());
-        
-        if(respuestaSanta.getContent()=="No has sido bueno"){
-            // Si no has sido bueno deja se borra el agente
-            this.doDelete();
-        } 
     }
 }
