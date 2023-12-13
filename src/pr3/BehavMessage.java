@@ -1,22 +1,16 @@
 package pr3;
 
 import jade.core.AID;
-import jade.core.behaviours.CyclicBehaviour;
+import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
 
-/**
- *
- * @author joy111
- */
-public class BehavMessage extends CyclicBehaviour {
+public class BehavMessage extends Behaviour {
 
     private int step = 0;
 
     @Override
     public void action() {
-
         switch (step) {
-
             case 0 -> {
                 ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
 
@@ -27,7 +21,6 @@ public class BehavMessage extends CyclicBehaviour {
 
                 step = 1;
             }
-
             case 1 -> {
                 ACLMessage msg = myAgent.blockingReceive();
 
@@ -39,23 +32,30 @@ public class BehavMessage extends CyclicBehaviour {
 
                     step = 2;
                 } else {
-                    System.out.println("Error en la conversacion");
-                    // myAgent.doDelete();
+                    messageError();
                 }
             }
-
             case 2 -> {
                 ACLMessage msg = myAgent.blockingReceive();
 
                 if (msg.getConversationId().equals("apto")
                         && msg.getPerformative() == ACLMessage.INFORM) {
-                     System.out.println("Mensaje de Rudolph: " + msg.getContent());
+                    System.out.println("Mensaje de Rudolph: " + msg.getContent());
                 } else {
-                    System.out.println("Error en la conversacion");
-                    // myAgent.doDelete();
+                    messageError();
                 }
             }
         }
+    }
+
+    public void messageError() {
+        System.out.println("Error en la conversacion");
+        myAgent.doDelete();
+    }
+
+    @Override
+    public boolean done() {
+        return true;
     }
 
 }
