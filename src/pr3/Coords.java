@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pr3;
 
-/**
- *
- * @author jmnavas
- */
 public class Coords {
     int x;
     int y;
@@ -21,5 +13,10 @@ public class Coords {
         super();
         this.x = x;
         this.y = y;
+    }
+    
+    @Override
+    public String toString() {
+        return "x:" + this.x + " y:" + this.y;
     }
 }
