@@ -10,7 +10,6 @@ public class AgentSanta extends Agent {
     protected void setup() {
         
         Behaviour behavSantaResponse = new BehavSantaResponse();
-        behavSantaResponse.setAgent(this);
         addBehaviour(behavSantaResponse);
 
     }

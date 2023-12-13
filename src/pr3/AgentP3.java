@@ -17,7 +17,6 @@ public class AgentP3 extends Agent {
         sharedDataStore.put("enviroment", env);
         
         Behaviour behavAskSantaCode = new BehavAskSantaCode();
-        behavAskSantaCode.setAgent(this);
         addBehaviour(behavAskSantaCode);
         
         // Behaviour that moves the agent
