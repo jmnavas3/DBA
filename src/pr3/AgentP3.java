@@ -16,6 +16,10 @@ public class AgentP3 extends Agent {
         env.setGoalPosition(9,4);
         sharedDataStore.put("enviroment", env);
         
+        Behaviour behavAskSantaCode = new BehavAskSantaCode();
+        behavAskSantaCode.setAgent(this);
+        addBehaviour(behavAskSantaCode);
+        
         // Behaviour that moves the agent
         Behaviour behavMoveAgent = new BehavMoveAgent();
         behavMoveAgent.setDataStore(sharedDataStore);
@@ -33,9 +37,7 @@ public class AgentP3 extends Agent {
         addBehaviour(behavSee);
         addBehaviour(behavUtility);
         addBehaviour(behavMoveAgent);
-
-
+        
+        
     }
-
-
 }
