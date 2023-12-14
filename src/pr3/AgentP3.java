@@ -11,6 +11,7 @@ import jade.core.AID;
 
 public class AgentP3 extends Agent {
     public DataStore sharedDataStore;
+    private boolean buscareno = false;
     
     @Override
     protected void setup() {
@@ -20,6 +21,9 @@ public class AgentP3 extends Agent {
         env.setGoalPosition(9,9);
         sharedDataStore.put("enviroment", env);
         
+        sharedDataStore.put("buscareno", buscareno);
+        
+        /*
         // Behaviour that moves the agent
         Behaviour behavMoveAgent = new BehavMoveAgent();
         behavMoveAgent.setDataStore(sharedDataStore);
@@ -34,15 +38,20 @@ public class AgentP3 extends Agent {
         Behaviour behavSee = new BehavSee();
         behavSee.setDataStore(sharedDataStore);
         
-        Behaviour behavMess = new MessageBehav();
+        */
         
+        Behaviour behavMess = new MessageBehav();
         addBehaviour(behavMess);
         
         
+            Behaviour behavMovimiento = new BehavMovimiento();
+            addBehaviour(behavMovimiento);
+        
+        /*
         addBehaviour(behavSee);
         addBehaviour(behavUtility);
         addBehaviour(behavMoveAgent);
-        
+        */
 
 
     }

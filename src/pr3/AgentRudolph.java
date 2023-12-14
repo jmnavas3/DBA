@@ -3,29 +3,45 @@ package pr3;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.DataStore;
-
+import java.util.Iterator;
 import jade.lang.acl.ACLMessage;
 import jade.core.AID;
-import javax.swing.JOptionPane;
+
+import java.util.HashMap;
+
 
 
 public class AgentRudolph extends Agent {
     public DataStore sharedDataStore;
-    //private int step = 0;
+    //private int[] renos;
+    HashMap<String, Coords> renos = new HashMap<String, Coords>();
+    private int n_renos = 8;
+    
+
     
     @Override
     protected void setup() {
+    
+    
+        for (int i = 0; i < n_renos; i++) {
+            renos.put("reno " + i, new Coords(i, i));
+            System.out.println("Coordenada del reno: " + i);
+        }
+        
 
         ACLMessage msg = blockingReceive();
         System.out.print("recibiendo mensaje: " + msg.getContent());
         
-        ACLMessage replay = msg.createReply();
+        ACLMessage reply = msg.createReply();
         
-        replay.setContent("Hola Agente");
-        send(replay);
+        reply.setContent("Hola, soy Rudolph, te paso la localizacion del reno: ");
+        
+        //replay.set
+        send(reply);
+        
         
         //ACLMessage msg2 = new ACLMessage();
-       //msg2.addReceiver(new AID("Santa",AID.ISLOCALNAME));
+        //msg2.addReceiver(new AID("Santa",AID.ISLOCALNAME));
         //msg2.setContent("Mensaje NUEVO");
         //send(msg2);
         
@@ -158,6 +174,22 @@ public class AgentRudolph extends Agent {
         */
 
     }//Setup
+    
+    class Renos {
+        int x;
+        int y;
+
+        public boolean equals(Object o) {
+            Renos c = (Renos) o;
+            return c.x == x && c.y == y;
+        }
+
+        public void setRenos(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+    
 
 
 }   //Agent

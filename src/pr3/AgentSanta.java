@@ -55,27 +55,12 @@ public class AgentSanta extends Agent {
             }
         });
         */
-        
-        
-        
-
-               
-                
-        
-        
+   
         
         //System.out.println("Valor de step :" + step);
             
     }   //Setup
-    
-            
-        
-        
-        
-        
-       
-        
-    
+
 
 
        /* 

@@ -32,6 +32,7 @@ public class MessageBehav extends CyclicBehaviour {
                 
                 msg.setContent("Hola Rudolph");
                 
+                msg.setConversationId("ID");        //Es el ID de Santa que te da para hablar con Rudolph
                // msg.setConversationId("ID");
                 myAgent.send(msg);
                 
