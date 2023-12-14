@@ -1,6 +1,8 @@
 package pr3;
 
-public class Coords {
+import java.io.Serializable;
+
+public class Coords implements Serializable {
     int x;
     int y;
 
