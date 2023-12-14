@@ -11,7 +11,6 @@ import jade.core.Agent;
  * @author galvez
  */
 public class BehavSantaResponse extends OneShotBehaviour {
-    private Agent myAgent;
     
     @Override
     public void action() {
@@ -32,10 +31,6 @@ public class BehavSantaResponse extends OneShotBehaviour {
             respuestaSanta.setContent("No eres digno");
             myAgent.send(respuestaSanta);
         }
-    }
-    
-    public void setAgent(Agent agent){
-        myAgent = agent;
     }
     
 }
