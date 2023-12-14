@@ -43,7 +43,7 @@ public class Main {
             throw new Exception("Agent from class " + className(clase) + " not created: " + e.getMessage());
         }
     }
-
+    
     public static String className(String className) {
         return PACKAGE_NAME.concat("." + className);
     }
