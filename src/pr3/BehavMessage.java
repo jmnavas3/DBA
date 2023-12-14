@@ -4,19 +4,20 @@ import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.UnreadableException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class BehavMessage extends Behaviour {
 
     private int step = 0;
-    Coords coordenadas;
+    Coords coordenadas = new Coords();
+    boolean buscaReno = false;
+    boolean buscaSanta = false;
+    DataStore ds;
 
     @Override
     public void action() {
-        DataStore ds = this.getDataStore();
+        ds = this.getDataStore();
+        buscaReno = (boolean) ds.get("buscareno");
+        
         switch (step) {
             case 0 -> {
                 ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
@@ -29,38 +30,38 @@ public class BehavMessage extends Behaviour {
                 step = 1;
             }
             case 1 -> {
-                // esperamos a que rudolph nos dé unas coordenadas
-                ACLMessage msg = myAgent.blockingReceive();
+                if (!buscaReno) {
+                    // esperamos a que rudolph nos diga algo (buscareno, buscasanta)
+                    ACLMessage msg = myAgent.blockingReceive();
 
-                if (msg.getConversationId().equals("code") &&
-                    msg.getPerformative() == ACLMessage.AGREE)
-                {
-                    try {
-                        coordenadas = (Coords) msg.getContentObject();
+                    if (msg.getConversationId().equals("code") &&
+                        msg.getPerformative() == ACLMessage.AGREE)
+                    {
+                        parseCoords(msg.getContent());
                         ds.put("coordenadas", coordenadas);
-                        // bloqueamos esta behaviour hasta que se reciba una respuesta
-                        block();
-                    } catch (UnreadableException ex) {
-                        Logger.getLogger(BehavMessage.class.getName()).log(Level.SEVERE, null, ex);
+
+                        ACLMessage replay = msg.createReply(ACLMessage.INFORM);
+                        replay.setContent("Hi");
+                        this.myAgent.send(replay);
+
+                    } else if (msg.getPerformative() == ACLMessage.INFORM) { // buscar a santa
+                        step = 2;
+                    } else {
                         messageError();
                     }
-                    ACLMessage replay = msg.createReply(ACLMessage.INFORM);
-                    replay.setContent("Hi");
-                    this.myAgent.send(replay);
-
-                    step = 2;
-                } else {
-                    messageError();
                 }
             }
             case 2 -> {
-                ACLMessage msg = myAgent.blockingReceive();
+                buscaSanta = (boolean) ds.get("buscasanta");
+                if (!buscaSanta) {
+                    ACLMessage msg = myAgent.blockingReceive();
 
-                if (msg.getConversationId().equals("apto")
-                        && msg.getPerformative() == ACLMessage.INFORM) {
-                    System.out.println("Mensaje de Rudolph: " + msg.getContent());
-                } else {
-                    messageError();
+                    if (msg.getConversationId().equals("apto")
+                            && msg.getPerformative() == ACLMessage.INFORM) {
+                        System.out.println("Mensaje de Rudolph: " + msg.getContent());
+                    } else {
+                        messageError();
+                    }
                 }
             }
         }
@@ -70,10 +71,21 @@ public class BehavMessage extends Behaviour {
         System.out.println("Error en la conversacion");
         myAgent.doDelete();
     }
+    
+    public void parseCoords(String msg) {
+        coordenadas = new Coords(msg);
+        
+        if ( !coordenadas.validar() ) {
+            System.out.println("No se han obtenido bien las coordenadas");
+            messageError();
+        }
+        ds.put("buscareno", coordenadas.validar());
+    }
 
     @Override
     public boolean done() {
-        return true;
+        ds = this.getDataStore();
+        return (boolean) ds.get("fin");
     }
 
 }

@@ -6,51 +6,46 @@ import jade.core.behaviours.DataStore;
 
 
 public class AgentP3 extends Agent {
-    public DataStore sharedDataStore;
+    public DataStore ds;
+    private boolean buscareno = false;
+    private boolean buscasanta = false;
     
     @Override
     protected void setup() {
-        sharedDataStore = new DataStore();
-
-        // setup_pr2();
+        ds = new DataStore();
+        // pr2
+        Enviroment env = new Enviroment();
+        env.setAgentPosition(0, 0);
+        env.setGoalPosition(9, 9);
+        ds.put("enviroment", env);
+        // pr3
+        ds.put("buscareno", buscareno);
+        ds.put("buscasanta", buscasanta);
+        ds.put("fin", false);
+        
         setup_pr3();
+        // setup_pr2();
     }
     
     private void setup_pr3() {
-        /*
-        1. presentarse (a Santa) -> espera respuesta
-        2. dar_codigo (a Rudolph) -> esperar respuesta
-        
-        behaviours en bucle: la última es con santa
-            3. pedir_coord (a Rudolph|Santa) -> esperar respuesta
-            4. behavSee
-            5. behavUtility
-            6. behavMoveAgent
-        7. avisar_llegada (a Santa) -> esperar respuesta final
-        8. eliminar agente
-         */
-
         Behaviour behavMess = new BehavMessage();
+        behavMess.setDataStore(ds);
         addBehaviour(behavMess);
     }
     
     private void setup_pr2() {
-        Enviroment env = new Enviroment();
-        env.setAgentPosition(0, 0);
-        env.setGoalPosition(9, 9);
-        sharedDataStore.put("enviroment", env);
 
         // Behaviour that moves the agent
         Behaviour behavMoveAgent = new BehavMoveAgent();
-        behavMoveAgent.setDataStore(sharedDataStore);
+        behavMoveAgent.setDataStore(ds);
 
         // Behaviour that calculate the next move
         Behaviour behavUtility = new BehavUtility();
-        behavUtility.setDataStore(sharedDataStore);
+        behavUtility.setDataStore(ds);
 
         // Behaviour that update sensors
         Behaviour behavSee = new BehavSee();
-        behavSee.setDataStore(sharedDataStore);
+        behavSee.setDataStore(ds);
 
         addBehaviour(behavSee);
         addBehaviour(behavUtility);

@@ -8,10 +8,11 @@ import jade.core.behaviours.DataStore;
  * @author galvez
  */
 public class BehavMoveAgent extends Behaviour{
+    DataStore ds;
     
     @Override
     public void action() {
-        DataStore ds = this.getDataStore();
+        ds = this.getDataStore();
         Enviroment env = (Enviroment) ds.get("enviroment");
         
         String nextAction = env.getAction();
@@ -24,13 +25,24 @@ public class BehavMoveAgent extends Behaviour{
     
    @Override
     public boolean done() {
-        DataStore ds = this.getDataStore();
+        ds = this.getDataStore();
         Enviroment env = (Enviroment) ds.get("enviroment");
+        boolean buscandoRenos = (boolean) ds.get("buscareno");
+        boolean buscandoSanta = (boolean) ds.get("buscasanta");
         boolean goalReached = env.checkGoal();
+        boolean lastGoalReached = false;
         
-        if (goalReached)
-            System.out.print("The agent has reached the goal");
+        if (buscandoRenos && goalReached){
+            System.out.println("Reno encontrado!");
+            ds.put("buscareno", false);
+        }
         
-        return goalReached;
+        if (buscandoSanta && goalReached) {
+            lastGoalReached = true;
+            System.out.println("Santa encontrado!");
+            ds.put("buscasanta", false);
+        }
+        
+        return lastGoalReached;
     }
 }
