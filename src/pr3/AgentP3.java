@@ -38,7 +38,7 @@ public class AgentP3 extends Agent {
         Behaviour behavSee = new BehavSee();
         behavSee.setDataStore(sharedDataStore);
         
-        */
+        Behaviour behavMess = new BehavMessage();
         
         Behaviour behavMess = new MessageBehav();
         addBehaviour(behavMess);

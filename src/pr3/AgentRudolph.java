@@ -6,18 +6,16 @@ import jade.core.behaviours.DataStore;
 import java.util.Iterator;
 import jade.lang.acl.ACLMessage;
 import jade.core.AID;
-
+import java.util.List;
 import java.util.HashMap;
-
+import javax.swing.JOptionPane;
 
 
 public class AgentRudolph extends Agent {
     public DataStore sharedDataStore;
-    //private int[] renos;
-    HashMap<String, Coords> renos = new HashMap<String, Coords>();
     private int n_renos = 8;
-    
-
+    //private int step = 0;
+    HashMap<String, Coords> renos = new HashMap<String, Coords>();
     
     @Override
     protected void setup() {
@@ -29,16 +27,18 @@ public class AgentRudolph extends Agent {
         }
         
 
+        
+        for (int i = 0; i < n_renos; i++) {
+            renos.put("reno " + i, new Coords(i, i));
+        }
+
         ACLMessage msg = blockingReceive();
         System.out.print("recibiendo mensaje: " + msg.getContent());
         
-        ACLMessage reply = msg.createReply();
-        
-        reply.setContent("Hola, soy Rudolph, te paso la localizacion del reno: ");
-        
-        //replay.set
-        send(reply);
-        
+        ACLMessage replay = msg.createReply();
+        replay.setConversationId("Hola");
+        replay.setContent("Hola Agente");
+        send(replay);
         
         //ACLMessage msg2 = new ACLMessage();
         //msg2.addReceiver(new AID("Santa",AID.ISLOCALNAME));

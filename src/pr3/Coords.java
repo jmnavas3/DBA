@@ -6,7 +6,7 @@ package pr3;
 
 /**
  *
- * @author joy11
+ * @author jmnavas
  */
 public class Coords {
     int x;
