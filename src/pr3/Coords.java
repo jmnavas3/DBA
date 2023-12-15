@@ -33,6 +33,8 @@ public class Coords implements Serializable {
     
     @Override
     public String toString() {
-        return "x:" + this.x + " y:" + this.y;
+        String str_x = Integer.toString(this.x);
+        String str_y = Integer.toString(this.y);
+        return str_x+str_y;
     }
 }

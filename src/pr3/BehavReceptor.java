@@ -69,11 +69,7 @@ public class BehavReceptor extends Behaviour {
     
     public void dar_coord(ACLMessage mensaje, int perf) {
         respuesta = mensaje.createReply(perf);
-        try {
-            respuesta.setContentObject(renos.remove(0));
-        } catch (IOException ex) {
-            Logger.getLogger(BehavReceptor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        respuesta.setContent(renos.remove(0).toString());
         myAgent.send(respuesta);
     }
 
