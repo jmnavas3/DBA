@@ -30,6 +30,17 @@ public abstract class BehavGoal extends Behaviour{
             lastGoalReached = true;
         }
         
+        // si llega al objetivo, reestablecemos el entorno
+        if (goalReached) {
+            Enviroment new_env = new Enviroment();
+            new_env.setAgentPosition(
+                    env.getAgentPositionX(), 
+                    env.getAgentPositionY());
+            ds.put("enviroment", new_env);
+        }
+        
+        this.setDataStore(ds);
+        
         return lastGoalReached;
     }
 }

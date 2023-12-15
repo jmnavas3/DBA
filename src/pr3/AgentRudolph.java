@@ -22,19 +22,13 @@ public class AgentRudolph extends Agent {
 
         ds.put("renos", renos);
         ds.put("codigo", codigo);
-        setup_rudolph();
-        // setup_pr3();
+        ds.put("terminar", false);
+        setup_pr3();
     }
 
     private void setup_pr3() {
         Behaviour behavRecep = new BehavReceptor();
+        behavRecep.setDataStore(ds);
         addBehaviour(behavRecep);
-    }
-
-    private void setup_rudolph() {;
-        
-        Behaviour behavRudolph = new BehavRudolph();
-        behavRudolph.setDataStore(ds);
-        addBehaviour(behavRudolph);
     }
 }

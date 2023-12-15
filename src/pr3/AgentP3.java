@@ -7,24 +7,21 @@ import jade.core.behaviours.DataStore;
 
 public class AgentP3 extends Agent {
     public DataStore ds;
-    private boolean buscareno = false;
-    private boolean buscasanta = false;
     
     @Override
     protected void setup() {
         ds = new DataStore();
         // pr2
         Enviroment env = new Enviroment();
-        env.setAgentPosition(0, 0);
-        env.setGoalPosition(9, 9);
+        env.setAgentPosition(9, 9);
         ds.put("enviroment", env);
         // pr3
-        ds.put("buscareno", buscareno);
-        ds.put("buscasanta", buscasanta);
+        ds.put("buscareno", false);
+        ds.put("buscasanta", false);
         ds.put("fin", false);
         
         setup_pr3();
-        // setup_pr2();
+        setup_pr2();
     }
     
     private void setup_pr3() {

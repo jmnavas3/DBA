@@ -21,11 +21,11 @@ public class Main {
             
             ContainerController cc = entorno.createAgentContainer(p);
 
-//            AgentController a1 = crearAgente(cc, "pathFinder", "AgentP3");
-//            a1.start();
-            
+            AgentController a1 = crearAgente(cc, "pathFinder", "AgentP3");
             AgentController rudolph = crearAgente(cc, "Rudolph", "AgentRudolph");
+            
             rudolph.start();
+            a1.start();
             
             /*
             AgentController santa = crearAgente(cc,"Santa", "AgentSanta");

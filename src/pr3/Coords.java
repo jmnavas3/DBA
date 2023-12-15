@@ -37,4 +37,8 @@ public class Coords implements Serializable {
         String str_y = Integer.toString(this.y);
         return str_x+str_y;
     }
+    
+    public String mostrar() {
+        return "x:" + x + " y:" + y;
+    }
 }
