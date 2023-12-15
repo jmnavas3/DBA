@@ -1,18 +1,9 @@
 package pr3;
 
-import jade.core.behaviours.Behaviour;
-import jade.core.behaviours.DataStore;
-
-/**
- *
- * @author joy111
- */
-
-public class BehavUtility extends Behaviour{
-    
+public class BehavUtility extends BehavGoal{
     @Override
     public void action(){
-        DataStore ds = this.getDataStore();
+        ds = this.getDataStore();
         Enviroment env = (Enviroment) ds.get("enviroment");
         
         String action = "nothing";
@@ -69,13 +60,4 @@ public class BehavUtility extends Behaviour{
         ds.put("enviroment", env);
         this.setDataStore(ds);
     }
-    
-    @Override
-    public boolean done(){
-        DataStore ds = this.getDataStore();
-        Enviroment env = (Enviroment) ds.get("enviroment");
-        
-        return env.checkGoal();
-    }
-    
 }
