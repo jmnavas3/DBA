@@ -13,7 +13,6 @@ import jade.core.Agent;
  * @author galvez
  */
 public class BehavAskSantaCode extends OneShotBehaviour {
-    private Agent myAgent;
     
     @Override
     public void action() {
@@ -23,16 +22,12 @@ public class BehavAskSantaCode extends OneShotBehaviour {
         myAgent.send(preguntaSanta);
         
         ACLMessage respuestaSanta = myAgent.blockingReceive();
-        System.out.println(respuestaSanta.getContent());
+        //System.out.println(respuestaSanta.getContent());
         
         if(respuestaSanta.getContent()=="No has sido bueno"){
             // Si no has sido bueno deja se borra el agente
             myAgent.doDelete();
         } 
-    }
-    
-    public void setAgent(Agent agent){
-        myAgent = agent;
     }
     
 }

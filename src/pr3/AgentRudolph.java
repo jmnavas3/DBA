@@ -1,41 +1,34 @@
 package pr3;
 
 import jade.core.Agent;
-import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
+import jade.core.behaviours.Behaviour;
+import java.util.ArrayList;
 
 
 public class AgentRudolph extends Agent {
-    public DataStore sharedDataStore;
-    
+
+    public DataStore ds;
+    private final int n_renos = 8;
+    private final String codigo = "code";
+    ArrayList<Coords> renos = new ArrayList<>();
+
     @Override
     protected void setup() {
-        sharedDataStore = new DataStore();
-        Enviroment env = new Enviroment();
-        env.setAgentPosition(5,6);
-        env.setGoalPosition(9,4);
-        sharedDataStore.put("enviroment", env);
+        ds = new DataStore();
         
-        // Behaviour that moves the agent
-        Behaviour behavMoveAgent = new BehavMoveAgent();
-        behavMoveAgent.setDataStore(sharedDataStore);
-        
-        
-        // Behaviour that calculate the next move
-        Behaviour behavUtility = new BehavUtility();
-        behavUtility.setDataStore(sharedDataStore);
-        
-        
-        // Behaviour that update sensors
-        Behaviour behavSee = new BehavSee();
-        behavSee.setDataStore(sharedDataStore);
-        
-        addBehaviour(behavSee);
-        addBehaviour(behavUtility);
-        addBehaviour(behavMoveAgent);
+        for (int i = 0; i < n_renos; i++)
+            renos.add(new Coords(i, i));
 
-
+        ds.put("renos", renos);
+        ds.put("codigo", codigo);
+        ds.put("terminar", false);
+        setup_pr3();
     }
 
-
+    private void setup_pr3() {
+        Behaviour behavRecep = new BehavReceptor();
+        behavRecep.setDataStore(ds);
+        addBehaviour(behavRecep);
+    }
 }

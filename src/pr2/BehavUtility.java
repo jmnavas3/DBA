@@ -63,7 +63,6 @@ public class BehavUtility extends Behaviour{
         } else if (nextPosX > agentX && nextPosY > agentY){
             action = "moveDownRight";
         }
-        
         env.setAction(action);  
         
         ds.put("enviroment", env);

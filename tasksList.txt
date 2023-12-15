@@ -1,9 +1,156 @@
 
-Apuntes
+-1 Wall
+ 0 Free
+ X Agent
+ T target
 
-1. Agente reactivo
-2. Agente puramente reactivo (sin memoria)
+Mapa de referencia (M)
 
-División de tareas:
+0 	1	2	3	4	5	6	7	8	9
 
-- 
+0	0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0	1
+0	0	0	0	-1	0	0	0	0	0	2
+0	0	0	0	-1	0	0	0	0	0	3
+0	0	0	0	-1	0	0	0	0	0	4
+0	0	0	T	-1	X	0	0	0	0	5
+0	0	0	0	-1	0	0	0	0	0	6
+0	0	0	0	-1	0	0	0	0	0	7
+0	0	0	0	-1	0	0	0	0	0	8
+0	0	0	0	-1	0	0	0	0	0	9
+
+Posicion objetivo: 5,3
+Posicion inicial agente: 5,5
+
+int[][] vision = new int[3][3];
+
+// la vision inicial del agente es:
+-1	0	0
+-1	0	0
+-1	0	0
+
+// Para cada celda libre Vij de la matriz
+// de visión (V) del agente, calculamos la
+// distancia hacia la meta y la guardamos
+// en una matriz de utilidad (U). Cada celda
+// Uij se corresponderá con la casilla
+// Mij de la matriz del Mapa (M).
+
+Uij = distancia(Vi, Vj)
+
+// Si el valor de una celda Mij != 0
+// es porque ya se observó antes esa casilla
+// y ya se tiene su distancia al objetivo. 
+
+if (Uij != 0)
+	// podemos establecer un criterio de
+	// decisión para las celdas conocidas.
+else
+	Uij = distancia(Vi, Vj)
+
+// En el mapa de referencia podemos ver que
+// el agente, en su posición inicial, tendría
+// el siguiente conocimiento del entorno.
+
+Objetivo en 5,3
+Agente en 	5,5
+
+3	4	5	6
+	-1	0	0	4
+T	-1	0	0	5
+	-1	0	0	6
+
+Esto se traduce en los siguientes
+valores de la matriz de utilidad U:
+
+Matriz Utilidad
+4			5			6
+-			2.23		3.16	4
+-			0			3		5
+-			2.23		3.16	6
+
+Por ejemplo, el cálculo de la distancia de
+la casilla U[4][5] sería el siguiente:
+
+sqrt(
+	(5-4)^2 // objX - casillaX
+	+
+	(3-5)^2 // objY - casillaY
+)
+= sqrt(1+4) = 2.23
+
+Como podemos ver en la matriz obtenida,
+el agente tiene 2 opciones con mismo valor,
+así que habría que establecer un criterio
+de decisión para estos casos.
+
+
+Aprovecho para explicar los "criterios de
+decisión". No es más que una manera de elegir
+una celda.
+
+
+Criterios
+
+1. Es el que se usará por defecto:
+ Escoger la celda con menor distancia al
+ objetivo.
+
+2. Se usa en caso de que haya varias celdas con
+la misma distancia mínima:
+ Podemos escoger la celda aleatoriamente y 
+ guardar el valor de las otras en un atributo
+ del entorno. Entonces, en el siguiente paso,
+ se aplicará el criterio 1 incluyendo el valor
+ del atributo. Si dicho valor es menor al del
+ resto de celdas, se volverá a la casilla
+ anterior y se seleccionará la casilla con ese
+ valor.
+
+3. Se usa en caso de que en la visión aparezca
+una celda previamente calculada:
+ Asignar 
+
+
+No obstante, hay que tener encuenta que 
+el primer criterio no debe de usarse sin
+comprobar antes los demás.
+
+
+1. Es el más simple. Escoger el movimiento que te lleve a la celda con mayor utilidad.
+2. Es el que se usa en caso de que haya varias celdas que tengan el mismo valor de utilidad. Podría ser una decisión aleatoria por ejemplo. Pero guardaríamos en memoria la utilidad, por si en el siguiente paso, la utilidad de las celdas fuese menor a la utilidad del paso anterior. En ese caso, volveríamos para el movimiento anterior. Esto implica que el agente haga un recorrido en anchura.
+
+
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	-1	-1	-1	-1	0
+0	0	0	0	0	-1	0	0	-1	0
+0	0	0	0	0	-1	0	0	-1	0
+0	0	0	0	0	-1	0	0	0	0
+0	0	0	0	0	-1	X	0	0	0
+0	0	0	0	T	-1	-1	-1	-1	0
+
+
+
+
+
+
+
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	0	0	0	0	0
+0	0	0	0	0	-1	0	0	0	0
+0	0	0	0	0	-1	0	0	0	0
+0	0	0	0	0	-1	0	0	0	0
+0	0	0	0	0	-1	0	0	0	0
+0	0	0	0	0	-1	X	0	0	0
+0	0	0	0	T	-1	0	0	0	0
+
+
+-1 	0	1 Y/X
+0 	0 	0  -1
+0 	0 	0   0
+0 	0 	0	1
