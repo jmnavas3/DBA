@@ -10,7 +10,7 @@ public class AgentRudolph extends Agent {
 
     public DataStore ds;
     private final int n_renos = 8;
-    private final String codigo = "code";
+    private final String codigo = "CodigoRudolph";
     ArrayList<Coords> renos = new ArrayList<>();
 
     @Override

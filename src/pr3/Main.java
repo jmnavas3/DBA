@@ -24,13 +24,12 @@ public class Main {
             AgentController a1 = crearAgente(cc, "pathFinder", "AgentP3");
             AgentController rudolph = crearAgente(cc, "Rudolph", "AgentRudolph");
             
+            AgentController santa = crearAgente(cc,"Santa", "AgentSanta");
+            
             rudolph.start();
             a1.start();
-            
-            /*
-            AgentController santa = crearAgente(cc,"Santa", "AgentSanta");
             santa.start();
-            */
+            
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

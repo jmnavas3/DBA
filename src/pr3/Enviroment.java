@@ -15,8 +15,8 @@ public class Enviroment {
     
     public Enviroment(){
         this.sensors = new int[3][3];
-      this.map = this.setMap("C:\\Users\\jmnavas\\Documents\\NetBeansProjects\\Pr1-HelloWorld\\config\\mapWithoutObstacle.txt");
-      //this.map = this.setMap("C:\\Users\\joy111\\OneDrive\\Actual\\DBA\\Practicas\\Practica2\\mapWithVerticalWall.txt");
+      //this.map = this.setMap("C:\\Users\\jmnavas\\Documents\\NetBeansProjects\\Pr1-HelloWorld\\config\\mapWithoutObstacle.txt");
+      this.map = this.setMap("C:\\Users\\joy111\\OneDrive\\Actual\\DBA\\Practicas\\Practica2\\mapWithoutObstacle.txt");
       //this.map = this.setMap("/home/galvez/Universidad/DBA/Pr1-maps/mapWithoutObstacle.txt");
         this.utility = new double [this.map.rows][this.map.columns];
         this.mapPrint = this.map.myMap;
