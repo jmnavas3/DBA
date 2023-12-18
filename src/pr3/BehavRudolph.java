@@ -5,7 +5,7 @@ import jade.core.behaviours.DataStore;
 import java.util.ArrayList;
 
 
-public class BehavRudolph extends Behaviour {
+public class BehavRudolph extends Behaviour {   //Este ya no se utiliza
     
     @Override
     public void action() {

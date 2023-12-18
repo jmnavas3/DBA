@@ -14,7 +14,7 @@ public class AgentSanta extends Agent {
     protected void setup() {
         ds = new DataStore();
         
-        ds.put("terminar", false);
+        ds.put("termino", false);
         
         Behaviour behavSantaResponse = new BehavSantaResponse();
         behavSantaResponse.setDataStore(ds);

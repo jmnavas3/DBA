@@ -4,7 +4,7 @@ public class BehavUtility extends BehavGoal{
     @Override
     public void action(){
         ds = this.getDataStore();
-        if ((boolean) ds.get("buscareno")) {
+        if ((boolean) ds.get("buscareno") || (boolean) ds.get("buscasanta")) {
             calcularUtilidad();
         }
     }

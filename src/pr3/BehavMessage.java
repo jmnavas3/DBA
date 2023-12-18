@@ -12,8 +12,10 @@ public class BehavMessage extends Behaviour {
     AID rudolph = new AID("Rudolph", AID.ISLOCALNAME);
     AID santa = new AID("Santa", AID.ISLOCALNAME);
     private String codigo = "code";
+    ACLMessage preguntaSanta;
     DataStore ds;
     Enviroment env;
+    
 
     @Override
     public void action() {
@@ -21,27 +23,27 @@ public class BehavMessage extends Behaviour {
         
         switch (step) {
             
-            case 0 ->{      //Ask SantaCode
+            case 0 ->{ //Ask SantaCode
                 ds = this.getDataStore();
         
-                ACLMessage preguntaSanta = new ACLMessage(ACLMessage.REQUEST);
+                preguntaSanta = new ACLMessage(ACLMessage.REQUEST);
                 preguntaSanta.addReceiver(santa);
         
                 preguntaSanta.setContent("Hola santa. ¿He sido un chico bueno?");
                 myAgent.send(preguntaSanta);
+                
+                preguntaSanta = myAgent.blockingReceive();
+                //dialogo(respuestaSanta.getContent());
         
-                ACLMessage respuestaSanta = myAgent.blockingReceive();
-                dialogo(respuestaSanta.getContent());
-        
-                if(respuestaSanta.getContent().equals("No has sido bueno")){
+                if(preguntaSanta.getContent().equals("No has sido bueno")){
                     // Si no has sido bueno deja se borra el agente
                     //myAgent.doDelete();
                     dialogo("Deberia terminar aqui");
                 }
-                else if(respuestaSanta.getContent().equals("CodigoRudolph")){      //El codigo: CodigoRudolph debe ser igual al que necesite Rudolph para dar renos
+                else if(preguntaSanta.getContent().equals("CodigoRudolph")){      //El codigo: CodigoRudolph debe ser igual al que necesite Rudolph para dar renos
                     dialogo("Tengo el codigo y empiezo a buscar renos");
-                    codigo = respuestaSanta.getContent();
-                    dialogo(codigo);
+                    codigo = preguntaSanta.getContent();
+                    //dialogo(codigo);
                     step = 1;
                 }
                     
@@ -64,7 +66,6 @@ public class BehavMessage extends Behaviour {
                 }
             }
             case 2 -> {
-                // si no estamos buscando renos
                 if (! (boolean)ds.get("buscareno")) {
                     // pedimos las coordenadas a rudolph
                     ACLMessage coord_request = new ACLMessage(ACLMessage.REQUEST);
@@ -75,8 +76,7 @@ public class BehavMessage extends Behaviour {
                     // esperamos a que rudolph nos diga algo (coordenadas, buscasanta)
                     ACLMessage msg = myAgent.blockingReceive();
 
-                    if (msg.getConversationId().equals(codigo) &&
-                        msg.getPerformative() == ACLMessage.AGREE)
+                    if (msg.getConversationId().equals(codigo) && msg.getPerformative() == ACLMessage.AGREE)
                     {
                         parseCoords(msg.getContent());
                         ds.put("coordenadas", coordenadas);
@@ -84,7 +84,7 @@ public class BehavMessage extends Behaviour {
                         dialogo("De acuerdo, me voy a buscarlo!");
                         step = 3;
                         // esto habría que hacerlo una vez que se comunique con santa
-                         ds.put("buscasanta", true);
+                        //ds.put("buscasanta", true);
                     } else {
                         messageError("Error en paso " + step);
                     }
@@ -93,29 +93,52 @@ public class BehavMessage extends Behaviour {
                 }
             }
             case 3 -> {
+                
+                //Cuando nos hemos quedado sin renos y vamos a buscar a santa
                 if (! (boolean)ds.get("buscasanta")) {
-                    ACLMessage msg = myAgent.blockingReceive();
-
-                    if (msg.getConversationId().equals("apto")
-                            && msg.getPerformative() == ACLMessage.INFORM) {
-                        System.out.println("Mensaje de Rudolph: " + msg.getContent());
-                    } else {
-                        messageError("Error en paso " + step);
-                    }
-                } else {    //Cuando nos hemos quedado sin renos y vamos a buscar a santa
-                    dialogo("Voy a ir pedir las coords a Santa...");
-                    ACLMessage coord_santa = new ACLMessage(ACLMessage.REQUEST);
-                    coord_santa.addReceiver(santa);
-                    myAgent.send(coord_santa);
+                    dialogo("Voy a pedir las coords a Santa...");
+                    myAgent.send(preguntaSanta.createReply(ACLMessage.REQUEST));
+                    System.out.println("A quien va dirigido preguntaSanta: " + preguntaSanta.getSender().toString());
+                    
+                    
+                    //ACLMessage coord_santa = new ACLMessage(ACLMessage.REQUEST);
+                    //coord_santa.addReceiver(santa);
+                    //myAgent.send(coord_santa);
                     
                     ACLMessage msg = myAgent.blockingReceive();
+                    
                     //coord_request.setConversationId(codigo);
-                    parseCoords(msg.getContent());
+                    coordenadas = new Coords(msg.getContent());
                     
-                    //ds.put("fin", true);
+                    if ( !coordenadas.validar() ) {
+                        messageError("Estas coordenadas están mal");
+                    }
+                    else{
+                        
+                        dialogo("Gracias, voy a buscarte " + coordenadas.mostrar());
+                        //ds.put("buscasanta", coordenadas.validar());
+                        env = (Enviroment) ds.get("enviroment");
+                        env.setGoalPosition(coordenadas.x, coordenadas.y);
+                        ds.put("buscasanta", true);
+                        ds.put("enviroment", env);
+                        step = 4;
+                        ds.put("coordenadas", coordenadas);
+                        this.setDataStore(ds);
+                    }
+                    
+                    //parseCoords(msg.getContent());
                 }
             }
+            
+            case 4 -> {
+                if ( (boolean)ds.get("fin")){
+                    System.out.println("He terminado de buscar a santa");
+                    myAgent.send(preguntaSanta.createReply(ACLMessage.INFORM));
+                }
+            }
+           
         }
+        
     }
 
     public void messageError(String info) {

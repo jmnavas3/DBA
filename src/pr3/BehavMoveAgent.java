@@ -5,7 +5,7 @@ public class BehavMoveAgent extends BehavGoal{
     @Override
     public void action() {
         ds = this.getDataStore();
-        if ((boolean) ds.get("buscareno")) {
+        if ((boolean) ds.get("buscareno") || (boolean) ds.get("buscasanta")) {
             Enviroment env = (Enviroment) ds.get("enviroment");
 
             String nextAction = env.getAction();
