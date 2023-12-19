@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-/**
- *
- * @author jmnavas
- */
+
 public class MapParser {
     private final String name;
     public final int rows, columns;

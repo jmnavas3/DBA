@@ -5,6 +5,7 @@ import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.DataStore;
 import jade.lang.acl.ACLMessage;
 
+
 public class BehavMessage extends Behaviour {
 
     private int step = 0;

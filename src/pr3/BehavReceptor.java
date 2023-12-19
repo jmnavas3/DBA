@@ -5,6 +5,7 @@ import jade.core.behaviours.DataStore;
 import jade.lang.acl.ACLMessage;
 import java.util.ArrayList;
 
+
 public class BehavReceptor extends Behaviour {
 
     private static enum Paso {RECIBIR_CODIGO, DAR_COORD};

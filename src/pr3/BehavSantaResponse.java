@@ -7,10 +7,6 @@ import jade.core.Agent;
 import jade.core.behaviours.DataStore;
 
 
-/**
- *
- * @author galvez
- */
 public class BehavSantaResponse extends Behaviour {
     
     DataStore ds ;
