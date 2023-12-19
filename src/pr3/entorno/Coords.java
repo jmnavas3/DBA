@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Coords implements Serializable {
     int x;
     int y;
+    private String mess;
     
     public Coords () {
         this.x = -1;
@@ -12,8 +13,33 @@ public class Coords implements Serializable {
     }
     
     public Coords (String message) {
-        this.x = Character.getNumericValue(message.charAt(0));
-        this.y = Character.getNumericValue(message.charAt(1));
+        this.mess = message;
+        if (message.length() == 2) {
+            this.x = toInt(0);
+            this.y = toInt(1);
+        }
+
+        if (message.length() == 3) {
+            this.x = toInt(0)*10;
+            this.x += toInt(1);
+            this.y = toInt(2);
+            if (this.x > 39) {
+                this.x = toInt(0);
+                this.y = toInt(1)*10;
+                this.y += toInt(2);
+            }
+        }
+
+        if (message.length() == 4) {
+            this.x = toInt(0)*10;
+            this.x += toInt(1);
+            this.y = toInt(2)*10;
+            this.y += toInt(3);
+        }
+    }
+
+    public int toInt(int pos) {
+        return Character.getNumericValue(this.mess.charAt(pos));
     }
     
     public boolean validar(){

@@ -13,7 +13,7 @@ public class AgentP3 extends Agent {
         ds = new DataStore();
         // pr2
         Enviroment env = new Enviroment();
-        env.setAgentPosition(9, 9);
+        env.setAgentPosition(aleatorio(), aleatorio());
         ds.put("enviroment", env);
         // pr3
         ds.put("buscareno", false);
@@ -47,5 +47,9 @@ public class AgentP3 extends Agent {
         addBehaviour(behavSee);
         addBehaviour(behavUtility);
         addBehaviour(behavMoveAgent);
+    }
+
+    private int aleatorio() {
+        return (int)Math.floor(Math.random()*40);
     }
 }

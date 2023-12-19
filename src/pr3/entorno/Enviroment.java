@@ -76,7 +76,7 @@ public class Enviroment {
     }
     
     public void showMapStatus() {
-        System.out.print(this.printMap());
+        //System.out.print(this.printMap());
     }
     
     // Update sensors

@@ -18,7 +18,7 @@ public class AgentRudolph extends Agent {
         ds = new DataStore();
         
         for (int i = 0; i < n_renos; i++)
-            renos.add(new Coords(i, i));
+            renos.add(new Coords(aleatorio(), aleatorio()));
 
         ds.put("renos", renos);
         ds.put("codigo", codigo);
@@ -30,5 +30,9 @@ public class AgentRudolph extends Agent {
         Behaviour behavRecep = new BehavReceptor();
         behavRecep.setDataStore(ds);
         addBehaviour(behavRecep);
+    }
+
+    private int aleatorio() {
+        return (int)Math.floor(Math.random()*40);
     }
 }

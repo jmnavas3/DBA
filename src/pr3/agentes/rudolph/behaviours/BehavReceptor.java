@@ -28,10 +28,10 @@ public class BehavReceptor extends Behaviour {
                 if (check_code.getPerformative() == ACLMessage.REQUEST &&
                         check_code.getConversationId().equals(codigo)) {
                     dialogo("el codigo es correcto!");
-                    responder(check_code, ACLMessage.AGREE);
+                    responder(check_code, ACLMessage.CONFIRM);
                     step = Paso.DAR_COORD;
                 } else {
-                    responder(check_code, ACLMessage.REFUSE);
+                    responder(check_code, ACLMessage.DISCONFIRM);
                     messageError("CODIGO INCORRECTO!");
                 }
             }
@@ -50,6 +50,7 @@ public class BehavReceptor extends Behaviour {
         }
     }
     
+
     public void messageError(String info) {
         dialogo(info);
          myAgent.doDelete();
@@ -59,14 +60,16 @@ public class BehavReceptor extends Behaviour {
     public void dialogo(String frase) {
         System.out.println(myAgent.getAID().getLocalName() + ": " + frase);
     }
+
     
     public void responder(ACLMessage mensaje, int perf) {
         respuesta = mensaje.createReply(perf);
         myAgent.send(respuesta);
     }
+
     
     public void dar_coord(ACLMessage mensaje) {
-        respuesta = mensaje.createReply(ACLMessage.AGREE);
+        respuesta = mensaje.createReply(ACLMessage.INFORM);
         
         if (!renos.isEmpty()) {
             dialogo("Si! quedan " + renos.size() + ". Aqui tienes su ubicacion");
@@ -74,7 +77,6 @@ public class BehavReceptor extends Behaviour {
             ds.put("renos", renos);
         } else {
             dialogo("Ya no queda ninguno, ve con Santa!");
-            respuesta = mensaje.createReply(ACLMessage.DISCONFIRM);
             respuesta.setContent("buscasanta");
             ds.put("terminar", true);
         }
@@ -82,6 +84,7 @@ public class BehavReceptor extends Behaviour {
         this.setDataStore(ds);
         myAgent.send(respuesta);
     }
+
 
     @Override
     public boolean done() {
