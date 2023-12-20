@@ -1,5 +1,6 @@
 package pr3;
 
+
 public class BehavUtility extends BehavGoal{
     @Override
     public void action(){

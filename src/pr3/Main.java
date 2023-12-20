@@ -6,10 +6,6 @@ import jade.wrapper.AgentController;
 import jade.wrapper.ContainerController;
 
 
-/**
- *
- * @author jmnavas
- */
 public class Main {
 
     private static final String PACKAGE_NAME = Main.class.getPackageName();
