@@ -22,24 +22,24 @@ public class BehavSantaResponse extends Behaviour {
                 ACLMessage msg = myAgent.blockingReceive();
                 int aleatorio = (int) Math.floor(Math.random() * 10);
                 dialogo("Voy a ver si eres digno o no (resultado entre 1 y 8), el resultado es: " + aleatorio);
-                if (msg.getPerformative() == ACLMessage.REQUEST) {
+                if (msg.getPerformative() == ACLMessage.PROPOSE) {
                     if (aleatorio > 0 && aleatorio < 9) {
                         dialogo("Eres digno, toma el codigo y daselo a Rudolph");
-                        respuesta = msg.createReply(ACLMessage.AGREE);
+                        respuesta = msg.createReply(ACLMessage.ACCEPT_PROPOSAL);
                         respuesta.setContent("CodigoRudolph");
                         step = Paso.DAR_UBICACION;
                     } else {
                         dialogo("No eres digno");
-                        respuesta = msg.createReply(ACLMessage.REFUSE);
+                        respuesta = msg.createReply(ACLMessage.REJECT_PROPOSAL);
                     }
                     myAgent.send(respuesta);
                 }
             }
 
             case DAR_UBICACION -> {
-                ACLMessage despedida = myAgent.blockingReceive();
-                if (despedida.getPerformative() == ACLMessage.REQUEST) {
-                    respuesta = despedida.createReply(ACLMessage.INFORM);
+                ACLMessage ubicacion = myAgent.blockingReceive();
+                if (ubicacion.getPerformative() == ACLMessage.REQUEST) {
+                    respuesta = ubicacion.createReply(ACLMessage.INFORM);
                     respuesta.setContent(posicion.toString());
                     dialogo("Aqui tienes mi posicion: " + respuesta.getContent());
                     myAgent.send(respuesta);

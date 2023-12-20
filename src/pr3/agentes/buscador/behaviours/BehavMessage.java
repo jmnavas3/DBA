@@ -25,12 +25,12 @@ public class BehavMessage extends Behaviour {
 
         switch (step) {
             case PROPONER_SANTA -> {
-                preguntaSanta = new ACLMessage(ACLMessage.REQUEST);
+                preguntaSanta = new ACLMessage(ACLMessage.PROPOSE);
                 preguntaSanta.addReceiver(santa);
                 dialogo("Soy digno de realizar la mision?");
                 myAgent.send(preguntaSanta);
                 preguntaSanta = myAgent.blockingReceive();
-                if (preguntaSanta.getPerformative() == ACLMessage.AGREE) {
+                if (preguntaSanta.getPerformative() == ACLMessage.ACCEPT_PROPOSAL) {
                     step = Paso.DAR_CODIGO;
                     codigo = preguntaSanta.getContent();
                     dialogo("Voy a darselo a Rudolph");
@@ -40,10 +40,10 @@ public class BehavMessage extends Behaviour {
             }
             
             case DAR_CODIGO -> {
-                ACLMessage msg = new ACLMessage(ACLMessage.REQUEST);
+                ACLMessage msg = new ACLMessage(ACLMessage.QUERY_IF);
                 msg.addReceiver(rudolph);
-                dialogo("Hola Rudolph, es correcto este codigo?");
                 msg.setConversationId(codigo);
+                dialogo("Hola Rudolph, es correcto este codigo?");
                 myAgent.send(msg);
                 ACLMessage response = myAgent.blockingReceive();
                 if (response.getPerformative() == ACLMessage.CONFIRM) {

@@ -24,7 +24,7 @@ public class BehavReceptor extends Behaviour {
             case VALIDAR_CODIGO -> {
                 ACLMessage check_code = myAgent.blockingReceive();
                 dialogo("dejame comprobar el codigo");
-                if (check_code.getPerformative() == ACLMessage.REQUEST
+                if (check_code.getPerformative() == ACLMessage.QUERY_IF
                         && check_code.getConversationId().equals(codigo)) {
                     dialogo("el codigo es correcto!");
                     responder(check_code, ACLMessage.CONFIRM);
