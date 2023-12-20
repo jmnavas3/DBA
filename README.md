@@ -1,2 +1,2 @@
 # DBA
-Práctica 2 de DBA.
+Prácticas de DBA.
