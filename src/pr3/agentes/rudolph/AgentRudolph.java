@@ -5,7 +5,6 @@ import jade.core.behaviours.DataStore;
 import jade.core.behaviours.Behaviour;
 import java.util.ArrayList;
 
-
 public class AgentRudolph extends Agent {
 
     public DataStore ds;
@@ -16,10 +15,9 @@ public class AgentRudolph extends Agent {
     @Override
     protected void setup() {
         ds = new DataStore();
-        
-        for (int i = 0; i < n_renos; i++)
+        for (int i = 0; i < n_renos; i++) {
             renos.add(new Coords(aleatorio(), aleatorio()));
-
+        }
         ds.put("renos", renos);
         ds.put("codigo", codigo);
         ds.put("terminar", false);
@@ -33,6 +31,6 @@ public class AgentRudolph extends Agent {
     }
 
     private int aleatorio() {
-        return (int)Math.floor(Math.random()*40);
+        return (int) Math.floor(Math.random() * 40);
     }
 }
